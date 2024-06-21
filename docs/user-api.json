@@ -2,7 +2,7 @@
     "openapi":"3.0.2",
     "info": {
         "title":"User API",
-        "version":"1.0.1"
+        "version":"1.0.2"
     },
     "servers": [
         {
@@ -250,11 +250,9 @@
         "/api/user" :{
             "get":{
                 "description": "get current user",
-                "parameters": [
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "schema":{}
+                        "bearerAuth":[]
                     }
                 ],
                 "responses": {
@@ -271,7 +269,9 @@
                                                 "id" :{"type": "number"},
                                                 "name":{"type": "string"},
                                                 "email":{"type": "string"},
-                                                "phone":{"type": "number"}
+                                                "phone":{"type": "number"},
+                                                "created_at":{"type": "string"},
+                                                "updated_at":{"type": "string"}
                                             }
                                         },
                                         "error" : {
@@ -287,11 +287,9 @@
             },
             "patch": {
                 "description": "Update current user",
-                "parameters": [
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "schema":{}
+                        "bearerAuth":[]
                     }
                 ],
                 "requestBody":{
@@ -330,7 +328,9 @@
                                                 "id" :{"type": "number"},
                                                 "name":{"type": "string"},
                                                 "email":{"type": "string"},
-                                                "phone":{"type": "number"}
+                                                "phone":{"type": "number"},
+                                                "created_at":{"type": "string"},
+                                                "updated_at":{"type": "string"}
                                             }
                                         },
                                         "error" : {
