@@ -1,0 +1,346 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+        "title":"User API",
+        "version":"1.0.0"
+    },
+    "servers": [
+        {
+            "url":"http://localhost:8000"
+        }
+    ],
+    "paths": {
+        "/api/user/register" :{
+            "post":{
+                "description": "Register new user",
+                "requestBody":{
+                    "content": {
+                        "application/json" :{
+                            "examples": {
+                                "standart" :{
+                                    "description": "Register untuk standart user",
+                                    "value": {
+                                        "name" : "daffa alif",
+                                        "email" : "daffa@saja.com",
+                                        "phone" : 829273723,
+                                        "password" : "rahasia"
+                                    }
+                                }
+                            },
+                            "schema" :{
+                                "type": "object",
+                                "required": ["name", "email", "phone", "password"],
+                                "properties": {
+                                    "name":{
+                                        "type": "string"
+                                    },
+                                    "email" :{
+                                        "type": "string"
+                                    },
+                                    "phone" :{
+                                        "type": "number"
+                                    },
+                                    "password":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "success register new user",
+                        "content": {
+                            "application/json" : {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{"type": "number"},
+                                                "name":{"type": "string"},
+                                                "email":{"type": "string"},
+                                                "phone":{"type": "number"}
+                                            }
+                                        },
+                                        "error" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422":{
+                        "description": "Validation error",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "validationError":{
+                                        "description": "contoh validasi error",
+                                        "value": {
+                                            "errors": {
+                                                "name": [
+                                                    "name tidak boleh kosong",
+                                                    "name tidak boleh mengandung angka"
+                                                ],
+                                                "email" : [
+                                                    "email tidak boleh kosong",
+                                                    "email tidak valid"
+                                                ],
+                                                "phone" : [
+                                                    "phone tidak boleh kosong",
+                                                    "phone tidak valid"
+                                                ],
+                                                "password": [
+                                                    "password tidak boleh kosong",
+                                                    "password harus lebih dari 6 karakter"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/login" :{
+            "post":{
+                "description": "Login exists user",
+                "requestBody":{
+                    "content": {
+                        "application/json" :{
+                            "examples": {
+                                "standart email" :{
+                                    "description": "Login untuk standart user menggunakan email",
+                                    "value": {
+                                        "credential" : "daffa@saja.com",
+                                        "password" : "rahasia"
+                                    }
+                                },
+                                "standart phone" :{
+                                    "description": "Login untuk standart user menggunakan phone",
+                                    "value": {
+                                        "credential" : "088662352",
+                                        "password" : "rahasia"
+                                    }
+                                }
+                            },
+                            "schema" :{
+                                "type": "object",
+                                "required": ["credential", "password"],
+                                "properties": {
+                                    "credential":{
+                                        "type": "string"
+                                    },
+                                    "password":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "success login user",
+                        "content": {
+                            "application/json" : {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{"type": "number"},
+                                                "name":{"type": "string"},
+                                                "email":{"type": "string"},
+                                                "phone":{"type": "number"},
+                                                "token":{"type": "string"}
+                                            }
+                                        },
+                                        "error" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description": "Unauthorized, gagal login",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "Unauthorized Email":{
+                                        "description": "contoh gagal login menggunakan email",
+                                        "value": {
+                                            "errors": {
+                                                "massage" : "password dan email yang dimasukan salah"
+                                            }
+                                        }
+                                    },
+                                    "Unauthorized Phone":{
+                                        "description": "contoh gagal login menggunakan phone",
+                                        "value": {
+                                            "errors": {
+                                                "massage" : "password dan phone yang dimasukan salah"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422":{
+                        "description": "Validation error",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "Validation error":{
+                                        "description": "contoh validasi error",
+                                        "value": {
+                                            "errors": {
+                                                "credential": [
+                                                    "credential tidak boleh kosong"
+                                                ],
+                                                "password": [
+                                                    "password tidak boleh kosong"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user" :{
+            "get":{
+                "description": "get current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "schema":{}
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "success get current user",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{"type": "number"},
+                                                "name":{"type": "string"},
+                                                "email":{"type": "string"},
+                                                "phone":{"type": "number"}
+                                            }
+                                        },
+                                        "error" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            },
+            "patch": {
+                "description": "Update current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "schema":{}
+                    }
+                ],
+                "requestBody":{
+                    "description": "update current user",
+                    "content": {
+                        "application/json" :{
+                            "schema":{
+                                "type": "object",
+                                "required": ["name", "email", "phone", "password"],
+                                "properties": {
+                                    "name":{
+                                        "type": "string"
+                                    },
+                                    "email" :{
+                                        "type": "string"
+                                    },
+                                    "phone" :{
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "success update current user",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{"type": "number"},
+                                                "name":{"type": "string"},
+                                                "email":{"type": "string"},
+                                                "phone":{"type": "number"}
+                                            }
+                                        },
+                                        "error" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/logout": {
+            "delete": {
+                "description": "Logout current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "schema":{}
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "success logout current user",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
