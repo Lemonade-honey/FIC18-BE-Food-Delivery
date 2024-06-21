@@ -101,4 +101,16 @@ class AuthController extends Controller
             ], 504);
         }
     }
+
+    public function logoutDelete(Request $request): JsonResponse
+    {
+        Log::info('user logout', [$request->user()]);
+
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'data' => true,
+            'errors' => []
+        ]);
+    }
 }
