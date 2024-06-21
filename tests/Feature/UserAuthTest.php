@@ -94,6 +94,8 @@ class UserAuthTest extends TestCase
         ->assertJsonStructure([
             'data' => ['id', 'name', 'email', 'phone', 'token']
         ]);
+
+        return $user;
     }
 
     public function test_login_success_with_phone()
@@ -121,5 +123,51 @@ class UserAuthTest extends TestCase
         $this->postJson('/api/user/login', [])
         ->assertStatus(422)
         ->assertJsonValidationErrors(['credential', 'password']);
+    }
+
+    public function test_logout_success()
+    {
+        $user = $this->test_login_success_with_email();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])->deleteJson('/api/user/logout')
+        ->assertSuccessful();
+    }
+
+    public function test_logout_failed()
+    {
+        $this->deleteJson('/api/user/logout')
+        ->assertStatus(401);
+    }
+
+    public function test_get_current_user_success()
+    {
+        $user = $this->test_login_success_with_email();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->getJson('/api/user')
+        ->assertSuccessful()
+        ->assertJsonStructure([
+            'data' => ['id', 'name', 'email', 'phone']
+        ]);
+    }
+
+    public function test_get_current_user_failed()
+    {
+        $user = $this->test_login_success_with_email();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->getJson('/api/user')
+        ->assertStatus(401);
     }
 }
