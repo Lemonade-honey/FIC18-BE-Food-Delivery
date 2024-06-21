@@ -2,13 +2,38 @@
     "openapi":"3.0.2",
     "info": {
         "title":"User API",
-        "version":"1.0.0"
+        "version":"1.0.1"
     },
     "servers": [
         {
             "url":"http://localhost:8000"
         }
     ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "bearer"
+            }
+        },
+        "responses": {
+            "UnauthorizedError":{
+                "description": "Access token hilang atau tidak valid, masukan token dari hasil login",
+                "content": {
+                    "application/json":{
+                        "examples": {
+                            "Unauthorized Massage":{
+                                "value":{
+                                    "massage": "Unauthenticated"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
     "paths": {
         "/api/user/register" :{
             "post":{
@@ -322,11 +347,9 @@
         "/api/user/logout": {
             "delete": {
                 "description": "Logout current user",
-                "parameters": [
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "schema":{}
+                        "bearerAuth":[]
                     }
                 ],
                 "responses": {
@@ -339,6 +362,9 @@
                                 }
                             }
                         }
+                    },
+                    "401":{
+                        "$ref": "#/components/responses/UnauthorizedError"
                     }
                 }
             }
