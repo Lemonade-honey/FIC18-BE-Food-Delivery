@@ -75,4 +75,51 @@ class UserAuthTest extends TestCase
         ])
         ->assertStatus(422);
     }
+
+    public function test_login_success_with_email()
+    {
+        $password = '123456';
+        $user = \App\Models\User::factory()->create([
+            'name' => fake()->name,
+            'email' => fake()->unique()->email,
+            'phone' => fake()->unique()->phoneNumber,
+            'password' => $password
+        ]);
+
+        $this->postJson('/api/user/login', [
+            'credential' => $user->email,
+            'password' => $password
+        ])
+        ->assertStatus(200)
+        ->assertJsonStructure([
+            'data' => ['id', 'name', 'email', 'phone', 'token']
+        ]);
+    }
+
+    public function test_login_success_with_phone()
+    {
+        $password = '123456';
+        $user = \App\Models\User::factory()->create([
+            'name' => fake()->name,
+            'email' => fake()->unique()->email,
+            'phone' => fake()->unique()->phoneNumber,
+            'password' => $password
+        ]);
+
+        $this->postJson('/api/user/login', [
+            'credential' => $user->phone,
+            'password' => $password
+        ])
+        ->assertStatus(200)
+        ->assertJsonStructure([
+            'data' => ['id', 'name', 'email', 'phone', 'token']
+        ]);
+    }
+
+    public function test_login_failed()
+    {
+        $this->postJson('/api/user/login', [])
+        ->assertStatus(422)
+        ->assertJsonValidationErrors(['credential', 'password']);
+    }
 }
