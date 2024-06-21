@@ -65,7 +65,7 @@
                                                 "phone":{"type": "number"}
                                             }
                                         },
-                                        "error" : {
+                                        "errors" : {
                                             "type": "object"
                                         }
                                     }
@@ -81,6 +81,7 @@
                                     "validationError":{
                                         "description": "contoh validasi error",
                                         "value": {
+                                            "massage" : "massage error",
                                             "errors": {
                                                 "name": [
                                                     "name tidak boleh kosong",
@@ -163,7 +164,7 @@
                                                 "token":{"type": "string"}
                                             }
                                         },
-                                        "error" : {
+                                        "errors" : {
                                             "type": "object"
                                         }
                                     }
