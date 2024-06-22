@@ -78,4 +78,69 @@ class UserTest extends TestCase
         ])
         ->assertStatus(401);
     }
+
+    public function test_update_user_role_success()
+    {
+        $user = User::factory()->create([
+            'name' => fake()->name,
+            'email' => fake()->unique()->email,
+            'phone' => fake()->unique()->phoneNumber,
+            'password' => '1234567'
+        ]);
+
+        $token = $user->createToken('test-token')->plainTextToken;
+        
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->patchJson('/api/user/role', [
+            'role' => 'driver'
+        ])
+        ->assertStatus(200);
+
+        // refresh data user
+        $user->refresh();
+
+        $this->assertEquals('driver', $user->role);
+    }
+
+    public function test_update_user_role_failed_validation()
+    {
+        $token = $this->user_token_generate();
+        
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->patchJson('/api/user/role', [
+            'role' => 'ntah'
+        ])
+        ->assertStatus(422)
+        ->assertJsonValidationErrors(['role']);
+    }
+
+    public function test_update_user_role_failed_validation_empty_data()
+    {
+        $token = $this->user_token_generate();
+        
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->patchJson('/api/user/role', [
+            
+        ])
+        ->assertStatus(422)
+        ->assertJsonValidationErrors(['role']);
+
+    }
+
+    public function test_update_user_role_failed_without_token()
+    {
+        $this->patchJson('/api/user/role', [
+            'role' => 'driver'
+        ])
+        ->assertStatus(401);
+    }
 }
