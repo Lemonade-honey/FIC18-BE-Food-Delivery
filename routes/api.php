@@ -21,6 +21,8 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::patch('/', [UserController::class, 'userUpdatePatch']);
 
+        Route::patch('/role', [UserController::class, 'userRolePatch']);
+
         Route::delete('/logout', [AuthController::class, 'logoutDelete']);
     });
 });
