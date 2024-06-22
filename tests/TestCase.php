@@ -11,7 +11,7 @@ abstract class TestCase extends BaseTestCase
      * 
      * dengan randome fake user data
      */
-    public function user_token_generate()
+    protected function user_token_generate()
     {
         $password = '123456';
         $user = \App\Models\User::factory()->create([
@@ -31,7 +31,7 @@ abstract class TestCase extends BaseTestCase
      * 
      * dengan data user static (jelas)
      */
-    public function user_static_token()
+    protected function user_static_token()
     {
         $user = \App\Models\User::factory()->create([
             'name' => 'daffa alif',
