@@ -10,21 +10,6 @@ class RestorantTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function user_token_generate()
-    {
-        $password = '123456';
-        $user = \App\Models\User::factory()->create([
-            'name' => fake()->name,
-            'email' => fake()->unique()->email,
-            'phone' => fake()->unique()->phoneNumber,
-            'password' => $password
-        ]);
-
-        $token = $user->createToken('test-token')->plainTextToken;
-
-        return $token;
-    }
-
     public function test_current_restorant_success()
     {
         // create user with role restorant
