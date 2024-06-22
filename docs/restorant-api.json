@@ -1,0 +1,342 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+        "title":"Restorant API",
+        "version":"1.0"
+    },
+    "servers": [
+        {
+            "url":"http://localhost:8000"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "bearer"
+            }
+        },
+        "responses": {
+            "UnauthorizedError":{
+                "description": "Access token hilang atau tidak valid, masukan token dari hasil login",
+                "content": {
+                    "application/json":{
+                        "examples": {
+                            "Unauthorized Massage":{
+                                "value":{
+                                    "massage": "Unauthenticated"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/api/restorant/create":{
+            "post":{
+                "description": "Membuat restorant baru berdasarkan user",
+                "tags": ["Auth User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "requestBody":{
+                    "content": {
+                        "multipart/form-data" :{
+                            "schema":{
+                                "type": "object",
+                                "required": ["name", "address", "latlong", "photo"],
+                                "properties": {
+                                    "name":{
+                                        "type": "string"
+                                    },
+                                    "address" :{
+                                        "type": "string"
+                                    },
+                                    "latlong" :{
+                                        "type": "string"
+                                    },
+                                    "photo":{
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "success create new restorant",
+                        "content": {
+                            "application/json":{
+                                "example":{
+                                    "data":{
+                                        "id": 1,
+                                        "name": "Jogja Pret Chiken",
+                                        "address": "jln. kaliurang km 10",
+                                        "latlong": "-200.234, 10.24546",
+                                        "photo": "http://localhost:8080/api/restorant/photo/sd834bjsdasdeotmdojjf.jpg",
+                                        "created_at": "date format",
+                                        "updated_at": "date format"
+                                    },
+                                    "errors":{}
+                                },
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{"type": "number"},
+                                                "name":{"type": "string"},
+                                                "address":{"type": "string"},
+                                                "latlong":{"type": "string"},
+                                                "photo":{"type": "string"},
+                                                "created_at":{"type": "string"},
+                                                "updated_at":{"type": "string"}
+                                            }
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422":{
+                        "description": "Validation error",
+                        "content": {
+                            "application/json" : {
+                                "example": {
+                                    "massage" : "massage error",
+                                    "errors": {
+                                        "name": [
+                                            "name tidak boleh kosong"
+                                        ],
+                                        "address" : [
+                                            "address tidak boleh kosong"
+                                        ],
+                                        "latlong" : [
+                                            "latlong tidak boleh kosong",
+                                            "latlong tidak valid"
+                                        ],
+                                        "photo": [
+                                            "photo tidak boleh kosong",
+                                            "photo maksimal berukuran 10mb"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/restorant":{
+            "get":{
+                "description": "mengambil restorant berdasrkan kepunyaan user",
+                "tags": ["Auth User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses": {
+                    "201":{
+                        "description": "success get current restorant",
+                        "content": {
+                            "application/json":{
+                                "example":{
+                                    "data":{
+                                        "id": 1,
+                                        "name": "Jogja Pret Chiken",
+                                        "address": "jln. kaliurang km 10",
+                                        "latlong": "-200.234, 10.24546",
+                                        "photo": "http://localhost:8080/api/restorant/photo/sd834bjsdasdeotmdojjf.jpg",
+                                        "created_at": "date format",
+                                        "updated_at": "date format"
+                                    },
+                                    "errors":{}
+                                },
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{"type": "number"},
+                                                "name":{"type": "string"},
+                                                "address":{"type": "string"},
+                                                "latlong":{"type": "string"},
+                                                "photo":{"type": "string"},
+                                                "created_at":{"type": "string"},
+                                                "updated_at":{"type": "string"}
+                                            }
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json" : {
+                                "example": {
+                                    "massage" : "Unauthenticated"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch":{
+                "description": "update data restorant berdasarkan kepunyaannya user",
+                "tags": ["Auth User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "requestBody":{
+                    "content": {
+                        "multipart/form-data" :{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "name":{
+                                        "type": "string"
+                                    },
+                                    "address" :{
+                                        "type": "string"
+                                    },
+                                    "latlong" :{
+                                        "type": "string"
+                                    },
+                                    "photo":{
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "success create new restorant",
+                        "content": {
+                            "application/json":{
+                                "example":{
+                                    "data":{
+                                        "id": 1,
+                                        "name": "Jogja Pret Chiken",
+                                        "address": "jln. kaliurang km 10",
+                                        "latlong": "-200.234, 10.24546",
+                                        "photo": "http://localhost:8080/api/restorant/photo/sd834bjsdasdeotmdojjf.jpg",
+                                        "created_at": "date format",
+                                        "updated_at": "date format"
+                                    },
+                                    "errors":{}
+                                },
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{"type": "number"},
+                                                "name":{"type": "string"},
+                                                "address":{"type": "string"},
+                                                "latlong":{"type": "string"},
+                                                "photo":{"type": "string"},
+                                                "created_at":{"type": "string"},
+                                                "updated_at":{"type": "string"}
+                                            }
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422":{
+                        "description": "Validation error",
+                        "content": {
+                            "application/json" : {
+                                "example": {
+                                    "massage" : "massage error",
+                                    "errors": {
+                                        "name": [
+                                            "name tidak boleh kosong"
+                                        ],
+                                        "address" : [
+                                            "address tidak boleh kosong"
+                                        ],
+                                        "latlong" : [
+                                            "latlong tidak boleh kosong",
+                                            "latlong tidak valid"
+                                        ],
+                                        "photo": [
+                                            "photo tidak boleh kosong",
+                                            "photo maksimal berukuran 10mb"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/restorant/menus":{
+            "get":{
+                "description": "mengambil menu yang tersedia berdasarkan kepunyaannya user",
+                "tags": ["Auth User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ]
+            },
+            "post":{
+                "description": "menambah menu restorant berdasarkan kepunyaannya user",
+                "tags": ["Auth User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ]
+            }
+        },
+        "/api/restorant/order":{
+            "get":{
+                "description": "mengambil order yang tersedia untuk saat ini, berdasarkan restorant kepunyaannya user",
+                "tags": ["Auth User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ]
+            },
+            "post":{
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ]
+            }
+        }
+    }
+  }
