@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RestorantController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,5 +25,11 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::patch('/role', [UserController::class, 'userRolePatch']);
 
         Route::delete('/logout', [AuthController::class, 'logoutDelete']);
+    });
+
+    Route::prefix('restorant')->group(function(){
+        Route::get('/', [RestorantController::class, 'currentRestorant']);
+
+        Route::post('/create', [RestorantController::class, 'createRestorant']);
     });
 });
