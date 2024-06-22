@@ -11,5 +11,5 @@ interface RestorantRepository{
      * 
      * mengambil data restorant berdasarkan user
      */
-    function getCurrentRestorantByUser(int $userId): \Illuminate\Database\Eloquent\Collection;
+    function getCurrentRestorantByUser(int $userId): \App\Models\Restorant | null;
 }
