@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,8 @@ Route::middleware('auth:sanctum')->group(function(){
                 'errors' => []
             ];
         });
+
+        Route::patch('/', [UserController::class, 'userUpdatePatch']);
 
         Route::delete('/logout', [AuthController::class, 'logoutDelete']);
     });
