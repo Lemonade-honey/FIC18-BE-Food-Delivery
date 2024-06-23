@@ -424,6 +424,25 @@
                                         "created_at": "datetime",
                                         "updated_at": "datetime"
                                     }
+                                },
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                                "id" :{"type": "number"},
+                                                "name":{"type": "string"},
+                                                "image":{"type": "string"},
+                                                "deskripsi":{"type": "string"},
+                                                "type":{"type": "string"},
+                                                "harga":{"type": "number"},
+                                                "stock":{"type": "string"},
+                                                "created_at":{"type": "string"},
+                                                "updated_at":{"type": "string"}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -456,6 +475,13 @@
                                             "harga tidak boleh kosong",
                                             "harga tidak boleh mengandung huruf"
                                         ]
+                                    }
+                                },
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "massage" :{"type": "string"},
+                                        "errors":{"type": "object"}
                                     }
                                 }
                             }
