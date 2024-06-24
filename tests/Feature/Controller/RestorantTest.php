@@ -116,6 +116,41 @@ class RestorantTest extends TestCase
         ->assertJsonValidationErrors(['name', 'latlong', 'photo']);
     }
 
+    public function test_current_restorant_delete_success()
+    {
+        // create user with role restorant
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory())->create([
+            'role' => 'restorant'
+        ]);
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->deleteJson('/api/restorant', [])
+        ->assertStatus(204);
+    }
+
+    public function test_current_restorant_delete_failed_auth()
+    {
+        $this->deleteJson('/api/restorant', [])
+        ->assertStatus(401);
+    }
+
+    public function test_current_restorant_delete_failed_no_restorant()
+    {
+        $token =  $this->user_token_generate();
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->deleteJson('/api/restorant', [])
+        ->assertStatus(404);
+    }
+
     public function test_current_restorant_products_success()
     {
         $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory()->has(\App\Models\Product::factory()))->create();
