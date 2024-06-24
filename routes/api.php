@@ -30,6 +30,12 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::prefix('restorant')->group(function(){
         Route::get('/', [RestorantController::class, 'currentRestorant']);
 
+        Route::get('/products', [RestorantController::class, 'currentRestorantProducts']);
+
         Route::post('/create', [RestorantController::class, 'createRestorant']);
+
+        Route::prefix('/product')->group(function(){
+            Route::post('/create', [RestorantController::class, 'currentRestorantCreateProduct']);
+        });
     });
 });
