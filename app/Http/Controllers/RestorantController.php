@@ -104,7 +104,7 @@ class RestorantController extends Controller
         }
     }
 
-    public function currentRestorantProducts(Request $request)
+    public function currentRestorantProducts(Request $request): JsonResponse
     {
         $user = $request->user();
 
@@ -127,7 +127,7 @@ class RestorantController extends Controller
         ]);
     }
 
-    public function currentRestorantCreateProduct(Request $request)
+    public function currentRestorantCreateProduct(Request $request): JsonResponse
     {
         $request->validate([
             'name' => ['required', 'max:255', 'min:3'],
@@ -172,7 +172,7 @@ class RestorantController extends Controller
         }
     }
 
-    public function currentRestorantProduct(Request $request, $id)
+    public function currentRestorantProduct(Request $request, $id): JsonResponse
     {
         $user = $request->user();
 
