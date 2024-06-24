@@ -177,4 +177,71 @@ class RestorantTest extends TestCase
             'massage' => 'tidak ada product terdaftar'
         ]);
     }
+
+    public function test_current_restorant_create_product_success()
+    {
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory())->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->postJson('/api/restorant/product/create', [
+            'name' => fake()->name(),
+            'image' => UploadedFile::fake()->image('test.jpg'),
+            'deskripsi' => fake()->paragraph(1),
+            'type' => 'makanan',
+            'harga' => 20000
+        ])
+        ->assertStatus(201)
+        ->assertJsonStructure(['data' => ['name', 'image', 'type', 'harga', 'deskripsi']]);
+    }
+
+    public function test_current_restorant_create_product_failed_auth()
+    {
+        $this->postJson('/api/restorant/product/create')
+        ->assertStatus(401);
+    }
+
+    public function test_current_restorant_create_product_failed_no_restorant()
+    {
+        $token = $this->user_token_generate();
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->postJson('/api/restorant/product/create', [
+            'name' => fake()->name(),
+            'image' => UploadedFile::fake()->image('test.jpg'),
+            'deskripsi' => fake()->paragraph(1),
+            'type' => 'makanan',
+            'harga' => 20000
+        ])
+        ->assertStatus(404);
+    }
+
+    public function test_current_restorant_create_product_failed_validation()
+    {
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory())->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->postJson('/api/restorant/product/create', [
+            'name' => fake()->name(),
+            'image' => UploadedFile::fake()->image('test.jpg'),
+            'deskripsi' => fake()->paragraph(1),
+            'type' => 'alat bekas',
+            'harga' => 'asd123'
+        ])
+        ->assertStatus(422)
+        ->assertJsonValidationErrorFor('type')
+        ->assertJsonValidationErrorFor('harga');
+    }
 }
