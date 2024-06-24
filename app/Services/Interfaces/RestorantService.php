@@ -15,4 +15,9 @@ interface RestorantService
      * @return ?Restorant
      */
     function restorantUserByRequest(Request $request): ?Restorant;
+
+    /**
+     * Delete Restorant Data
+     */
+    function deleteRestorant(Restorant $restorant): void;
 }

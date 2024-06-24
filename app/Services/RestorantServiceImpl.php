@@ -23,4 +23,11 @@ class RestorantServiceImpl implements RestorantService
 
         return $restorantUser;
     }
+
+    public function deleteRestorant(Restorant $restorant): void
+    {
+        // delete all restorant with product relate
+        // dikarenakan sudah men-set untuk relasi pada database schema dan model
+        $restorant->delete();
+    }
 }
