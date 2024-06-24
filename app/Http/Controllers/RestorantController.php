@@ -105,6 +105,27 @@ class RestorantController extends Controller
         }
     }
 
+    /**
+     * Delete Restorant
+     * 
+     * menghapus data restorant secara `permanent` beserta dengan relasi productnya
+     */
+    public function currentRestorantDelete(Request $request)
+    {
+        $userRestorant = $this->restorantService->restorantUserByRequest($request);
+
+        if(! $userRestorant)
+        {
+            return response()->json([
+                'massage' => 'restorant user not found'
+            ], 404);
+        }
+
+        $this->restorantService->deleteRestorant($userRestorant);
+
+        return response()->json(status: 204);
+    }
+
     public function currentRestorantProducts(Request $request): JsonResponse
     {
         $user = $request->user();
