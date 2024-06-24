@@ -11,7 +11,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(\App\Repositorys\Interface\RestorantRepository::class, \App\Repositorys\RestorantRepositoryImpl::class);
+        $this->app->bind(\App\Repositorys\Interfaces\RestorantRepository::class, \App\Repositorys\RestorantRepositoryImpl::class);
     }
 
     /**

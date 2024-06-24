@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
-use App\Services\Interface\FileService;
+use App\Services\Interfaces\FileService;
 use Illuminate\Support\Facades\Storage;
 
 class FileServiceImpl implements FileService

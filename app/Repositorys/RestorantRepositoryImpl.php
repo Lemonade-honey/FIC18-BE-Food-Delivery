@@ -3,7 +3,7 @@
 namespace App\Repositorys;
 
 use App\Models\Restorant;
-use App\Repositorys\Interface\RestorantRepository;
+use App\Repositorys\Interfaces\RestorantRepository;
 
 class RestorantRepositoryImpl implements RestorantRepository{
     public function getCurrentRestorantByUser(int $userId): ?Restorant
