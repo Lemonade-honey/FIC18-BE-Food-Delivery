@@ -16,11 +16,13 @@ class RestorantController extends Controller
 
     private $fileService;
     private $restorantService;
+    private $productService;
 
-    public function __construct(\App\Services\Interfaces\FileService $fileService, \App\Services\Interfaces\RestorantService $restorantService)
+    public function __construct(\App\Services\Interfaces\FileService $fileService, \App\Services\Interfaces\RestorantService $restorantService, \App\Services\Interfaces\ProductService $productService)
     {
         $this->fileService = $fileService;
         $this->restorantService = $restorantService;
+        $this->productService = $productService;
     }
 
     public function currentRestorant(Request $request): JsonResponse
@@ -191,6 +193,86 @@ class RestorantController extends Controller
         return response()->json([
             'data' => $product
         ]);
+    }
+
+    public function currentRestorantProductPatch(Request $request, $id): JsonResponse
+    {
+        $request->validate([
+            'name' => ['sometimes', 'max:255', 'min:3'],
+            'image' => ['sometimes', 'image', 'max:10280'],
+            'deskripsi' => 'sometimes',
+            'type' => ['sometimes', 'in:makanan,minuman'],
+            'harga' => ['sometimes', 'numeric']
+        ]);
+
+        try {
+            $userRestorant = $this->restorantService->restorantUserByRequest($request);
+
+            if (! $userRestorant)
+            {
+                return self::errorResponseRestorantNotFound();
+            }
+
+            $product = $this->productService->productByIdAndRestorantId(productId: $id, restorantId: $userRestorant->id);
+
+            if (! $product)
+            {
+                return response()->json([
+                    'massage' => 'product tidak ditemukan'
+                ], 404);
+            }
+
+            $updateProduct = $this->productService->updateProductDataByRequest($product, $request);
+
+            return response()->json([
+                'data' => $updateProduct
+            ]);
+
+        } 
+        
+        catch (Throwable $th) {
+            Log::critical('user gagal update product. Error Code : ' . $th->getCode(), [
+                'class' => get_class(),
+                'massage' => $th->getMessage()
+            ]);
+
+            return self::errorResponseServerError();
+        }
+    }
+
+    public function currentRestorantProductDelete(Request $request, $id): JsonResponse
+    {
+        try {
+            $userRestorant = $this->restorantService->restorantUserByRequest($request);
+
+            if (! $userRestorant)
+            {
+                return self::errorResponseRestorantNotFound();
+            }
+
+            $product = $this->productService->productByIdAndRestorantId(productId: $id, restorantId: $userRestorant->id);
+
+            if (! $product)
+            {
+                return response()->json([
+                    'massage' => 'product tidak ditemukan'
+                ], 404);
+            }
+
+            // delete
+            $this->productService->deleteProductDataByProduct($product);
+
+            return response()->json(status: 204);
+        } 
+        
+        catch (Throwable $th) {
+            Log::critical('user gagal hapus product. Error Code : ' . $th->getCode(), [
+                'class' => get_class(),
+                'massage' => $th->getMessage()
+            ]);
+
+            return self::errorResponseServerError();
+        }
     }
 
     /**
