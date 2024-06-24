@@ -27,15 +27,17 @@ class ClearPublicStorage extends Command
     public function handle()
     {
         $this->warn('file yang ada akan terhapus secara permanent');
+        if (config("app.env" != "local"))
+        {
+            $this->info('hanya dapat di local env saja');
+        }
         if ($this->confirm('Apakah Anda yakin ingin membersihkan storage di dalam direktori public?')) {
             $storagePath = public_path('storage');
     
             $publicStoragePath = storage_path('app/public');
 
-            // Use Laravel's File facade to delete all files recursively in public storage
             File::deleteDirectory($publicStoragePath);
 
-            // Optionally, you can recreate the directory after deletion
             File::makeDirectory($publicStoragePath);
 
             $this->info('Public storage cleared successfully.');
