@@ -115,4 +115,66 @@ class RestorantTest extends TestCase
         ->assertStatus(422)
         ->assertJsonValidationErrors(['name', 'latlong', 'photo']);
     }
+
+    public function test_current_restorant_products_success()
+    {
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory()->has(\App\Models\Product::factory()))->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->getJson('/api/restorant/products')
+        ->assertStatus(200)
+        ->assertJsonStructure(['data' => [
+            ['id',
+            'restorant_id',
+            'name',
+            'image',
+            'deskripsi',
+            'type',
+            'harga'
+            ]
+        ]]);
+    }
+
+    public function test_current_restorant_products_failed_without_auth()
+    {
+        $this->getJson('/api/restorant/products', [])
+        ->assertStatus(401);
+    }
+
+    public function test_current_restorant_products_failed_no_data_restorant()
+    {
+        $token = $this->user_token_generate();
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->getJson('/api/restorant/products')
+        ->assertStatus(404)
+        ->assertJson([
+            'massage' => 'restorant user not found'
+        ]);
+    }
+
+    public function test_current_restorant_products_failed_no_data_products()
+    {
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory())->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->getJson('/api/restorant/products')
+        ->assertStatus(404)
+        ->assertJson([
+            'massage' => 'tidak ada product terdaftar'
+        ]);
+    }
 }
