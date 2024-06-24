@@ -13,11 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        if (config("app.env") == 'local')
+        {
+            // user dengan restorant
+            User::factory(15)->has(\App\Models\Restorant::factory()->has(\App\Models\Product::factory(10)))->create([
+                'role' => 'restorant',
+                'password' => 123456
+            ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+            // user dengan driver
+        }
     }
 }
