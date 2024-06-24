@@ -244,4 +244,113 @@ class RestorantTest extends TestCase
         ->assertJsonValidationErrorFor('type')
         ->assertJsonValidationErrorFor('harga');
     }
+
+    public function test_current_restorant_product_patch_success()
+    {
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory()->has(\App\Models\Product::factory()))->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->patchJson('/api/restorant/product/' . $user->restorant->products[0]->id, [
+            'name' => 'ganti nama saja',
+            'image' => UploadedFile::fake()->image('test.jpg')
+        ])
+        ->assertStatus(200);
+    }
+
+    public function test_current_restorant_product_patch_failed_auth()
+    {
+        $this->patchJson('/api/restorant/product/1', [
+            'name' => 'ganti nama saja',
+            'image' => UploadedFile::fake()->image('test.jpg')
+        ])
+        ->assertStatus(401);
+    }
+
+    public function test_current_restorant_product_patch_failed_no_restorant()
+    {
+        $user = \App\Models\User::factory()->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->patchJson('/api/restorant/product/1', [
+            'name' => 'ganti nama saja',
+            'image' => UploadedFile::fake()->image('test.jpg')
+        ])
+        ->assertStatus(404);
+    }
+
+    public function test_current_restorant_product_patch_failed_no_product()
+    {
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory())->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->patchJson('/api/restorant/product/1', [
+            'name' => 'ganti nama saja',
+            'image' => UploadedFile::fake()->image('test.jpg')
+        ])
+        ->assertStatus(404);
+    }
+
+    public function test_current_restorant_product_delete_success()
+    {
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory()->has(\App\Models\Product::factory()))->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->deleteJson('/api/restorant/product/' . $user->restorant->products[0]->id)
+        ->assertStatus(204);
+    }
+
+    public function test_current_restorant_product_delete_failed_auth()
+    {
+        $this->deleteJson('/api/restorant/product/1')
+        ->assertStatus(401);
+    }
+
+    public function test_current_restorant_product_delete_failed_no_restorant()
+    {
+        $user = \App\Models\User::factory()->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->deleteJson('/api/restorant/product/1')
+        ->assertStatus(404);
+    }
+
+
+    public function test_current_restorant_product_delete_failed_no_product()
+    {
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory())->create();
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->deleteJson('/api/restorant/product/1')
+        ->assertStatus(404);
+    }
 }
