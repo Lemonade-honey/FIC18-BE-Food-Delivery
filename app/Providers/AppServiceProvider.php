@@ -13,6 +13,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(\App\Services\Interfaces\FileService::class, \App\Services\FileServiceImpl::class);
         $this->app->bind(\App\Services\Interfaces\RestorantService::class, \App\Services\RestorantServiceImpl::class);
+        $this->app->bind(\App\Services\Interfaces\ProductService::class, \App\Services\ProductServiceImpl::class);
     }
 
     /**
