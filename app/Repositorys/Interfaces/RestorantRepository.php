@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositorys\Interface;
+namespace App\Repositorys\Interfaces;
 
 use App\Models\Restorant;
 
