@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\RepositoryContainer;
 
 use App\Models\Product;
 use App\Models\Restorant;
