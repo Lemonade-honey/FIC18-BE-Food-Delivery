@@ -18,7 +18,7 @@ class RestorantController extends Controller
 
     private $restorantRepo;
 
-    public function __construct(\App\Repositorys\Interface\RestorantRepository $restorantRepository, \App\Services\Interface\FileService $fileService)
+    public function __construct(\App\Repositorys\Interfaces\RestorantRepository $restorantRepository, \App\Services\Interfaces\FileService $fileService)
     {
         $this->fileService = $fileService;
         $this->restorantRepo = $restorantRepository;
