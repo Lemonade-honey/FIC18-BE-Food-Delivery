@@ -36,6 +36,11 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::prefix('/product')->group(function(){
             Route::post('/create', [RestorantController::class, 'currentRestorantCreateProduct']);
+
+            Route::prefix('/{id}')->group(function(){
+                Route::patch('/', [RestorantController::class, 'currentRestorantProductPatch']);
+                Route::delete('/', [RestorantController::class, 'currentRestorantProductDelete']);
+            });
         });
     });
 });
