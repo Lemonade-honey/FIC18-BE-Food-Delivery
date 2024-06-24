@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
         if (config("app.env") == 'local')
         {
             // user dengan restorant
-            User::factory(15)->has(\App\Models\Restorant::factory())->create([
-                'role' => 'restorant'
+            User::factory(15)->has(\App\Models\Restorant::factory()->has(\App\Models\Product::factory(10)))->create([
+                'role' => 'restorant',
+                'password' => 123456
             ]);
 
             // user dengan driver
