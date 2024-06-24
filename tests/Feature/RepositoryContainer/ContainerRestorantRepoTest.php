@@ -18,7 +18,7 @@ class ContainerRestorantRepoTest extends TestCase
     {
         parent::setUp();
 
-        $this->restorantRepo = $this->app->make(\App\Repositorys\Interface\RestorantRepository::class);
+        $this->restorantRepo = $this->app->make(\App\Repositorys\Interfaces\RestorantRepository::class);
     }
 
     public function test_get_current_restorant()

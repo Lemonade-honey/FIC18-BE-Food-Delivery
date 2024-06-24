@@ -19,7 +19,7 @@ class ContainerFileServiceTest extends TestCase
         // Mock the Storage facade
         Storage::fake('public');
 
-        $this->fileService = $this->app->make(\App\Services\Interface\FileService::class);
+        $this->fileService = $this->app->make(\App\Services\Interfaces\FileService::class);
     }
 
     public function test_container_services(){
