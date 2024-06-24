@@ -27,11 +27,12 @@ sebuah RESRFULL API untuk aplikasi Food Delivery, untuk target frontend mengguna
 
 ## Improve Feature BE
 
-1. build with OPENAPI, terdapat dokumen untuk tiap route api. lokasi ada di `docs/`. [lihat caranya](#dokumentasi-route-api)
-2. build with Test Case schema
-3. build with log viewer, semua aktivitas terekam di dalam log
-4. relation database schema
-5. clear syntax
+1. build with **_repository and service pattern_**
+2. build with OPENAPI, terdapat dokumen untuk tiap route api. lokasi ada di `docs/`. [lihat caranya](#dokumentasi-route-api)
+3. build with Test Case schema
+4. build with log viewer, semua aktivitas terekam di dalam log
+5. relation database schema
+6. menerapkan clear architecture dan hampir menerapkan prisip SOLID
 
 ## Setup Project
 
