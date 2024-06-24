@@ -15,18 +15,17 @@ class RestorantController extends Controller
     const FILE_PATH_PHOTO_RESTORANT = "restorant";
 
     private $fileService;
+    private $restorantService;
 
-    private $restorantRepo;
-
-    public function __construct(\App\Repositorys\Interfaces\RestorantRepository $restorantRepository, \App\Services\Interfaces\FileService $fileService)
+    public function __construct(\App\Services\Interfaces\FileService $fileService, \App\Services\Interfaces\RestorantService $restorantService)
     {
         $this->fileService = $fileService;
-        $this->restorantRepo = $restorantRepository;
+        $this->restorantService = $restorantService;
     }
 
     public function currentRestorant(Request $request): JsonResponse
     {
-        $userRestorant = $this->restorantRepo->getCurrentRestorantByUser($request->user()->id);
+        $userRestorant = $this->restorantService->restorantUserByRequest($request);
 
         if(! $userRestorant)
         {
@@ -63,7 +62,7 @@ class RestorantController extends Controller
         ]);
 
         try {
-            $userRestorant = $this->restorantRepo->getCurrentRestorantByUser($request->user()->id);
+            $userRestorant = $this->restorantService->restorantUserByRequest($request);
             
             if($userRestorant)
             {
@@ -137,10 +136,8 @@ class RestorantController extends Controller
             'harga' => ['required', 'numeric']
         ]);
 
-        $user = $request->user();
-
         try{
-            $userRestorant = $this->restorantRepo->getCurrentRestorantByUser($user->id);
+            $userRestorant = $this->restorantService->restorantUserByRequest($request);
 
             if (! $userRestorant)
             {
@@ -174,9 +171,8 @@ class RestorantController extends Controller
 
     public function currentRestorantProduct(Request $request, $id): JsonResponse
     {
-        $user = $request->user();
 
-        $userRestorant = $this->restorantRepo->getCurrentRestorantByUser($user->id);
+        $userRestorant = $this->restorantService->restorantUserByRequest($request);
 
         if (! $userRestorant)
         {
