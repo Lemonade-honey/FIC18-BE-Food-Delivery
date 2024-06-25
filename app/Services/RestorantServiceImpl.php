@@ -24,6 +24,13 @@ class RestorantServiceImpl implements RestorantService
         return $restorantUser;
     }
 
+    public function restorantsByNameOrProducts(\Illuminate\Http\Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator|null
+    {
+        $restorants = $this->restorantRepo->getRestorantsOrProductsNyNameWithPaginate($request->search, 10);
+
+        return $restorants;
+    }
+
     public function deleteRestorant(Restorant $restorant): void
     {
         // delete all restorant with product relate

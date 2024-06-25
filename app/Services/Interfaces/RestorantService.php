@@ -20,4 +20,6 @@ interface RestorantService
      * Delete Restorant Data
      */
     function deleteRestorant(Restorant $restorant): void;
+
+    function restorantsByNameOrProducts(Request $request): ?\Illuminate\Contracts\Pagination\LengthAwarePaginator;
 }
