@@ -704,8 +704,9 @@
                 }
             }
         },
-        "/api/restorant/order":{
+        "/api/restorant/orders":{
             "get":{
+                "summary": "riwayat order",
                 "description": "mengambil order yang tersedia untuk saat ini, berdasarkan restorant kepunyaannya user",
                 "tags": ["Auth User"],
                 "security": [
@@ -713,6 +714,57 @@
                         "bearerAuth":[]
                     }
                 ]
+            }
+        },
+
+        "/api/restorants":{
+            "get":{
+                "summary": "mengambil semua data restorant",
+                "tags": ["global"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "schema":{
+                            "type": "string"
+                        },
+                        "description": "kata kunci"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "success mengambil data restorant yang ada"
+                    },
+                    "404":{
+                        "description": "tidak ditemukan data restorant"
+                    }
+                }
+            }
+        },
+        "/api/restorant/{id}":{
+            "get":{
+                "description": "mengambil data restorant yang ditargetkan",
+                "tags": ["global"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema":{
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "success get restorant data"
+                    },
+                    
+                    "404":{
+                        "description": "tidak ditemukan data restorant"
+                    }
+                }
             }
         }
     }
