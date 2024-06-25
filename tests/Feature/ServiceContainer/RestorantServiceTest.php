@@ -107,4 +107,22 @@ class RestorantServiceTest extends TestCase
 
         $this->assertTrue($service->total() == 1, $service->total());
     }
+
+    public function test_restorant_with_product_by_restorant_id()
+    {
+        $restorants = Restorant::factory()->has(Product::factory(4))->create();
+        
+        $service = $this->restorantService->restorantWithProductByRestorantId($restorants->id);
+        
+        $this->instance(Restorant::class, $service);
+        $this->assertTrue($service->count() == 1);
+        $this->assertTrue($service->products()->count() == 4);
+    }
+
+    public function test_restorant_with_product_by_restorant_id_null()
+    {
+        $service = $this->restorantService->restorantWithProductByRestorantId(99);
+        
+        $this->assertNull($service);
+    }
 }
