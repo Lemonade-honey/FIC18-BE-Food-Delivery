@@ -49,3 +49,7 @@ Route::middleware('auth:sanctum')->group(function(){
 });
 
 Route::get('/restorants', [RestorantController::class, 'restorants']);
+Route::prefix('restorant/{id}')->group(function(){
+    Route::get('/', [RestorantController::class, 'restorant']);
+    Route::get('/product/{product_id}', [RestorantController::class, 'restorantProduct']);
+});
