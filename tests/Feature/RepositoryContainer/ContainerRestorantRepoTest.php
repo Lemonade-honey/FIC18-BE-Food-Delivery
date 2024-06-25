@@ -29,6 +29,7 @@ class ContainerRestorantRepoTest extends TestCase
 
         $this->assertInstanceOf(Restorant::class, $result);
     }
+
     public function test_get_current_restorant_with_products()
     {
         $user = \App\Models\User::factory()->has(Restorant::factory()->has(Product::factory()))->create();
@@ -36,5 +37,16 @@ class ContainerRestorantRepoTest extends TestCase
         $result = $this->restorantRepo->getCurrentRestorantWithProducts($user->id);
 
         $this->assertInstanceOf(Restorant::class, $result);
+    }
+
+    public function test_get_restorants_name_or_products()
+    {
+        $restorants = Restorant::factory(5)->has(Product::factory(5))->create();
+
+        $result = $this->restorantRepo->getRestorantsOrProductsNyNameWithPaginate('');
+
+        $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $result);
+        
+        $this->assertTrue($result->total() == 5);
     }
 }
