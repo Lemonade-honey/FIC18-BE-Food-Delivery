@@ -20,6 +20,12 @@ class RestorantRepositoryImpl implements RestorantRepository{
         return $restorant;
     }
 
+    public function getRestorantById(int $restorantId): Restorant|null
+    {
+        $restorant = Restorant::find($restorantId);
+
+        return $restorant;
+    }
 
     public function getRestorantByIdWithProducts(int $restorantId): Restorant|null
     {

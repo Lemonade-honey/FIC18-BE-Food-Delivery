@@ -21,11 +21,18 @@ interface RestorantRepository{
     function getCurrentRestorantWithProducts(int $userId): ?Restorant;
 
     /**
+     * Get Restoran By Id
+     * 
+     * mendapatkan restoran dengan id
+     */
+    function getRestorantById(int $restorantId): ?Restorant;
+
+    /**
      * Get Restorant By Id With Products
      * 
      * mendapatkan restoran dengan id beserta dengan productnya
      */
-    public function getRestorantByIdWithProducts(int $restorantId): ?Restorant;
+    function getRestorantByIdWithProducts(int $restorantId): ?Restorant;
 
     /**
      * Get Restorants with target key
