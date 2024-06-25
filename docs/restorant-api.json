@@ -31,7 +31,7 @@
         }
     },
     "paths": {
-        "/api/restorant/create":{
+        "/api/user/restorant/create":{
             "post":{
                 "description": "Membuat restorant baru berdasarkan user",
                 "tags": ["Auth User"],
@@ -137,7 +137,7 @@
                 }
             }
         },
-        "/api/restorant":{
+        "/api/user/restorant":{
             "get":{
                 "description": "mengambil restorant berdasrkan kepunyaan user",
                 "tags": ["Auth User"],
@@ -302,7 +302,7 @@
                 }
             }
         },
-        "/api/restorant/products":{
+        "/api/user/restorant/products":{
             "get":{
                 "summary": "mengambil semua product menu yang ada pada restorant",
                 "description": "mengambil menu yang tersedia berdasarkan kepunyaannya user",
@@ -369,7 +369,7 @@
                 }
             }
         },
-        "/api/restorant/product/create":{
+        "/api/user/restorant/product/create":{
             "post":{
                 "description": "menambah menu restorant berdasarkan kepunyaannya user",
                 "tags": ["Auth User"],
@@ -490,7 +490,7 @@
                 }
             }
         },
-        "/api/restorant/product/{id}":{
+        "/api/user/restorant/product/{id}":{
             "get":{
                 "summary": "mengambil product spesifik berdasarkan id",
                 "description": "menampilkan product berdasarkan id yang diberikan",
@@ -704,7 +704,7 @@
                 }
             }
         },
-        "/api/restorant/orders":{
+        "/api/user/restorant/orders":{
             "get":{
                 "summary": "riwayat order",
                 "description": "mengambil order yang tersedia untuk saat ini, berdasarkan restorant kepunyaannya user",
@@ -760,7 +760,7 @@
                     "200":{
                         "description": "success get restorant data"
                     },
-                    
+
                     "404":{
                         "description": "tidak ditemukan data restorant"
                     }
