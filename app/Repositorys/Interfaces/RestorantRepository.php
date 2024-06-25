@@ -19,4 +19,12 @@ interface RestorantRepository{
      * mengambil data restorant berdasrkan user dengan product restorantnya
      */
     function getCurrentRestorantWithProducts(int $userId): ?Restorant;
+
+    /**
+     * Get Restorants with target key
+     * 
+     * mengambil restoran berdasarkan key/target value nama yang akan dicari
+     * menggunakan paginate
+     */
+    function getRestorantsOrProductsNyNameWithPaginate(?string $name, int $paginate = 15): ?\Illuminate\Contracts\Pagination\LengthAwarePaginator;
 }
