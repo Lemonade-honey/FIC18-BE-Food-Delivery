@@ -500,6 +500,17 @@
                         "bearerAuth":[]
                     }
                 ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema":{
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200":{
                         "description": "success create product",
