@@ -50,6 +50,25 @@ class ContainerRestorantRepoTest extends TestCase
         $this->assertTrue($result->total() == 5);
     }
 
+
+    public function test_get_restorant_by_id()
+    {
+        $restorant = Restorant::factory()->has(Product::factory(5))->create();
+
+        $result = $this->restorantRepo->getRestorantById($restorant->id);
+
+        $this->assertInstanceOf(Restorant::class, $result);
+
+        $this->assertNotNull($result);
+    }
+
+    public function test_get_restorant_by_id_no_data()
+    {
+        $result = $this->restorantRepo->getRestorantById(99);
+
+        $this->assertNull($result);
+    }
+
     public function test_get_restorant_with_products_by_restorant_id()
     {
         $restorant = Restorant::factory()->has(Product::factory(5))->create();
