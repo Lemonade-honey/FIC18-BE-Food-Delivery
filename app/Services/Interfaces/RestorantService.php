@@ -21,5 +21,18 @@ interface RestorantService
      */
     function deleteRestorant(Restorant $restorant): void;
 
+    /**
+     * Get Restorant with product selected
+     * 
+     * mendapatkan data restorant dan productnya berdasarkan nama
+     */
+    function restorantWithProductByRestorantId(int $restorantId): ?Restorant;
+
+    /**
+     * Get Restorants Name Or Products
+     * 
+     * mendapatkan data restorant yang menandung nama yang sesuai dengan
+     * permintaan request
+     */
     function restorantsByNameOrProducts(Request $request): ?\Illuminate\Contracts\Pagination\LengthAwarePaginator;
 }
