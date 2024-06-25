@@ -44,7 +44,7 @@
         "/api/user/restorant/create":{
             "post":{
                 "description": "Membuat restorant baru berdasarkan user",
-                "tags": ["Auth User"],
+                "tags": ["Restorant User"],
                 "security": [
                     {
                         "bearerAuth":[]
@@ -150,7 +150,7 @@
         "/api/user/restorant":{
             "get":{
                 "description": "mengambil restorant berdasrkan kepunyaan user",
-                "tags": ["Auth User"],
+                "tags": ["Restorant User"],
                 "security": [
                     {
                         "bearerAuth":[]
@@ -210,7 +210,7 @@
             },
             "patch":{
                 "description": "update data restorant berdasarkan kepunyaannya user",
-                "tags": ["Auth User"],
+                "tags": ["Restorant User"],
                 "security": [
                     {
                         "bearerAuth":[]
@@ -316,7 +316,7 @@
             "get":{
                 "summary": "mengambil semua product menu yang ada pada restorant",
                 "description": "mengambil menu yang tersedia berdasarkan kepunyaannya user",
-                "tags": ["Auth User"],
+                "tags": ["Restorant User"],
                 "security": [
                     {
                         "bearerAuth":[]
@@ -382,7 +382,7 @@
         "/api/user/restorant/product/create":{
             "post":{
                 "description": "menambah menu restorant berdasarkan kepunyaannya user",
-                "tags": ["Auth User"],
+                "tags": ["Restorant User"],
                 "security": [
                     {
                         "bearerAuth":[]
@@ -504,7 +504,7 @@
             "get":{
                 "summary": "mengambil product spesifik berdasarkan id",
                 "description": "menampilkan product berdasarkan id yang diberikan",
-                "tags": ["Auth User"],
+                "tags": ["Restorant User"],
                 "security": [
                     {
                         "bearerAuth":[]
@@ -580,7 +580,7 @@
             },
             "patch":{
                 "description": "mengedit data product berdasarkan id yang diberikan",
-                "tags": ["Auth User"],
+                "tags": ["Restorant User"],
                 "security": [
                     {
                         "bearerAuth":[]
@@ -685,7 +685,7 @@
             },
             "delete":{
                 "description": "menghapus data product berdasarkan id yang diberikan",
-                "tags": ["Auth User"],
+                "tags": ["Restorant User"],
                 "security": [
                     {
                         "bearerAuth":[]
@@ -729,7 +729,7 @@
             "get":{
                 "summary": "riwayat order",
                 "description": "mengambil order yang tersedia untuk saat ini, berdasarkan restorant kepunyaannya user",
-                "tags": ["Auth User"],
+                "tags": ["Restorant User"],
                 "security": [
                     {
                         "bearerAuth":[]
