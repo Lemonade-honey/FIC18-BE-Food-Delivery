@@ -25,24 +25,26 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::patch('/role', [UserController::class, 'userRolePatch']);
 
         Route::delete('/logout', [AuthController::class, 'logoutDelete']);
-    });
 
-    Route::prefix('restorant')->group(function(){
-        Route::get('/', [RestorantController::class, 'currentRestorant']);
-
-        Route::delete('/', [RestorantController::class, 'currentRestorantDelete']);
-
-        Route::get('/products', [RestorantController::class, 'currentRestorantProducts']);
-
-        Route::post('/create', [RestorantController::class, 'createRestorant']);
-
-        Route::prefix('/product')->group(function(){
-            Route::post('/create', [RestorantController::class, 'currentRestorantCreateProduct']);
-
-            Route::prefix('/{id}')->group(function(){
-                Route::patch('/', [RestorantController::class, 'currentRestorantProductPatch']);
-                Route::delete('/', [RestorantController::class, 'currentRestorantProductDelete']);
+        Route::prefix('restorant')->group(function(){
+            Route::get('/', [RestorantController::class, 'currentRestorant']);
+    
+            Route::delete('/', [RestorantController::class, 'currentRestorantDelete']);
+    
+            Route::get('/products', [RestorantController::class, 'currentRestorantProducts']);
+    
+            Route::post('/create', [RestorantController::class, 'createRestorant']);
+    
+            Route::prefix('/product')->group(function(){
+                Route::post('/create', [RestorantController::class, 'currentRestorantCreateProduct']);
+    
+                Route::prefix('/{id}')->group(function(){
+                    Route::patch('/', [RestorantController::class, 'currentRestorantProductPatch']);
+                    Route::delete('/', [RestorantController::class, 'currentRestorantProductDelete']);
+                });
             });
         });
     });
+
+    
 });
