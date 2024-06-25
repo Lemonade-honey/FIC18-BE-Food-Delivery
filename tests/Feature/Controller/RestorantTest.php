@@ -46,7 +46,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->getJson('/api/restorant', [])
+        ->getJson('/api/user/restorant', [])
         ->assertStatus(200);
     }
 
@@ -58,13 +58,13 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->getJson('/api/restorant', [])
+        ->getJson('/api/user/restorant', [])
         ->assertStatus(404);
     }
 
     public function test_current_restorant_failed_without_auth()
     {
-        $this->getJson('/api/restorant', [])
+        $this->getJson('/api/user/restorant', [])
         ->assertStatus(401);
     }
 
@@ -76,7 +76,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->postJson('/api/restorant/create', $this->dummy_restorant_valid_data())
+        ->postJson('/api/user/restorant/create', $this->dummy_restorant_valid_data())
         ->assertStatus(201)
         ->assertJsonStructure([
             'data' => ['id', 'name', 'latlong', 'photo']
@@ -93,7 +93,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->postJson('/api/restorant/create', $this->dummy_restorant_valid_data())
+        ->postJson('/api/user/restorant/create', $this->dummy_restorant_valid_data())
         ->assertStatus(409)
         ->assertJsonValidationErrors(['massage']);
     }
@@ -106,7 +106,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->postJson('/api/restorant/create', [
+        ->postJson('/api/user/restorant/create', [
             'name' => '',
             'address' => fake()->address(),
             'latlong' => '',
@@ -129,13 +129,13 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->deleteJson('/api/restorant', [])
+        ->deleteJson('/api/user/restorant', [])
         ->assertStatus(204);
     }
 
     public function test_current_restorant_delete_failed_auth()
     {
-        $this->deleteJson('/api/restorant', [])
+        $this->deleteJson('/api/user/restorant', [])
         ->assertStatus(401);
     }
 
@@ -147,7 +147,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->deleteJson('/api/restorant', [])
+        ->deleteJson('/api/user/restorant', [])
         ->assertStatus(404);
     }
 
@@ -161,7 +161,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->getJson('/api/restorant/products')
+        ->getJson('/api/user/restorant/products')
         ->assertStatus(200)
         ->assertJsonStructure(['data' => [
             ['id',
@@ -177,7 +177,7 @@ class RestorantTest extends TestCase
 
     public function test_current_restorant_products_failed_without_auth()
     {
-        $this->getJson('/api/restorant/products', [])
+        $this->getJson('/api/user/restorant/products', [])
         ->assertStatus(401);
     }
 
@@ -189,7 +189,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->getJson('/api/restorant/products')
+        ->getJson('/api/user/restorant/products')
         ->assertStatus(404)
         ->assertJson([
             'massage' => 'restorant user not found'
@@ -206,7 +206,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->getJson('/api/restorant/products')
+        ->getJson('/api/user/restorant/products')
         ->assertStatus(404)
         ->assertJson([
             'massage' => 'tidak ada product terdaftar'
@@ -223,7 +223,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->postJson('/api/restorant/product/create', [
+        ->postJson('/api/user/restorant/product/create', [
             'name' => fake()->name(),
             'image' => UploadedFile::fake()->image('test.jpg'),
             'deskripsi' => fake()->paragraph(1),
@@ -236,7 +236,7 @@ class RestorantTest extends TestCase
 
     public function test_current_restorant_create_product_failed_auth()
     {
-        $this->postJson('/api/restorant/product/create')
+        $this->postJson('/api/user/restorant/product/create')
         ->assertStatus(401);
     }
 
@@ -248,7 +248,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->postJson('/api/restorant/product/create', [
+        ->postJson('/api/user/restorant/product/create', [
             'name' => fake()->name(),
             'image' => UploadedFile::fake()->image('test.jpg'),
             'deskripsi' => fake()->paragraph(1),
@@ -268,7 +268,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->postJson('/api/restorant/product/create', [
+        ->postJson('/api/user/restorant/product/create', [
             'name' => fake()->name(),
             'image' => UploadedFile::fake()->image('test.jpg'),
             'deskripsi' => fake()->paragraph(1),
@@ -290,7 +290,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->patchJson('/api/restorant/product/' . $user->restorant->products[0]->id, [
+        ->patchJson('/api/user/restorant/product/' . $user->restorant->products[0]->id, [
             'name' => 'ganti nama saja',
             'image' => UploadedFile::fake()->image('test.jpg')
         ])
@@ -299,7 +299,7 @@ class RestorantTest extends TestCase
 
     public function test_current_restorant_product_patch_failed_auth()
     {
-        $this->patchJson('/api/restorant/product/1', [
+        $this->patchJson('/api/user/restorant/product/1', [
             'name' => 'ganti nama saja',
             'image' => UploadedFile::fake()->image('test.jpg')
         ])
@@ -316,7 +316,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->patchJson('/api/restorant/product/1', [
+        ->patchJson('/api/user/restorant/product/1', [
             'name' => 'ganti nama saja',
             'image' => UploadedFile::fake()->image('test.jpg')
         ])
@@ -333,7 +333,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->patchJson('/api/restorant/product/1', [
+        ->patchJson('/api/user/restorant/product/1', [
             'name' => 'ganti nama saja',
             'image' => UploadedFile::fake()->image('test.jpg')
         ])
@@ -350,13 +350,13 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->deleteJson('/api/restorant/product/' . $user->restorant->products[0]->id)
+        ->deleteJson('/api/user/restorant/product/' . $user->restorant->products[0]->id)
         ->assertStatus(204);
     }
 
     public function test_current_restorant_product_delete_failed_auth()
     {
-        $this->deleteJson('/api/restorant/product/1')
+        $this->deleteJson('/api/user/restorant/product/1')
         ->assertStatus(401);
     }
 
@@ -370,7 +370,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->deleteJson('/api/restorant/product/1')
+        ->deleteJson('/api/user/restorant/product/1')
         ->assertStatus(404);
     }
 
@@ -385,7 +385,7 @@ class RestorantTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])
-        ->deleteJson('/api/restorant/product/1')
+        ->deleteJson('/api/user/restorant/product/1')
         ->assertStatus(404);
     }
 }
