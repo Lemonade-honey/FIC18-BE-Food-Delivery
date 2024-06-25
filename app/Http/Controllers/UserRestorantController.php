@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-class RestorantController extends Controller
+class UserRestorantController extends Controller
 {
 
     const FILE_PATH_PHOTO_RESTORANT = "restorant";

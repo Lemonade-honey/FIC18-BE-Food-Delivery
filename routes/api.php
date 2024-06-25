@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\RestorantController;
+use App\Http\Controllers\UserRestorantController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,20 +27,20 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::delete('/logout', [AuthController::class, 'logoutDelete']);
 
         Route::prefix('restorant')->group(function(){
-            Route::get('/', [RestorantController::class, 'currentRestorant']);
+            Route::get('/', [UserRestorantController::class, 'currentRestorant']);
     
-            Route::delete('/', [RestorantController::class, 'currentRestorantDelete']);
+            Route::delete('/', [UserRestorantController::class, 'currentRestorantDelete']);
     
-            Route::get('/products', [RestorantController::class, 'currentRestorantProducts']);
+            Route::get('/products', [UserRestorantController::class, 'currentRestorantProducts']);
     
-            Route::post('/create', [RestorantController::class, 'createRestorant']);
+            Route::post('/create', [UserRestorantController::class, 'createRestorant']);
     
             Route::prefix('/product')->group(function(){
-                Route::post('/create', [RestorantController::class, 'currentRestorantCreateProduct']);
+                Route::post('/create', [UserRestorantController::class, 'currentRestorantCreateProduct']);
     
                 Route::prefix('/{id}')->group(function(){
-                    Route::patch('/', [RestorantController::class, 'currentRestorantProductPatch']);
-                    Route::delete('/', [RestorantController::class, 'currentRestorantProductDelete']);
+                    Route::patch('/', [UserRestorantController::class, 'currentRestorantProductPatch']);
+                    Route::delete('/', [UserRestorantController::class, 'currentRestorantProductDelete']);
                 });
             });
         });
