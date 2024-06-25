@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RestorantController;
 use App\Http\Controllers\UserRestorantController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -45,6 +46,6 @@ Route::middleware('auth:sanctum')->group(function(){
             });
         });
     });
-
-    
 });
+
+Route::get('/restorants', [RestorantController::class, 'restorants']);
