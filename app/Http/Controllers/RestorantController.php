@@ -11,9 +11,12 @@ class RestorantController extends Controller
 
     private $restorantService;
 
-    public function __construct(\App\Services\Interfaces\RestorantService $restorantService)
+    private $restorantRepo;
+
+    public function __construct(\App\Services\Interfaces\RestorantService $restorantService, \App\Repositorys\Interfaces\RestorantRepository $restorantRepository)
     {
         $this->restorantService = $restorantService;
+        $this->restorantRepo = $restorantRepository;
     }
 
     public function restorants(Request $request): JsonResponse
@@ -36,6 +39,27 @@ class RestorantController extends Controller
 
         return response()->json([
             'data' => $restorant 
+        ]);
+    }
+
+    public function restorantProduct($id, $productId): JsonResponse
+    {
+        $restorant = $this->restorantRepo->getRestorantById($id);
+
+        if(! $restorant)
+        {
+            return self::errorResponseDataNotFound();
+        }
+
+        $product = \App\Models\Product::find($productId);
+
+        if(! $product)
+        {
+            return self::errorResponseDataNotFound();
+        }
+
+        return response()->json([
+            'data' => $product
         ]);
     }
 }
