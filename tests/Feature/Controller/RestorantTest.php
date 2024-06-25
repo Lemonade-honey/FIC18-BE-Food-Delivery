@@ -388,4 +388,80 @@ class RestorantTest extends TestCase
         ->deleteJson('/api/user/restorant/product/1')
         ->assertStatus(404);
     }
+
+    public function test_restorants_success_all()
+    {
+        \App\Models\Restorant::factory(2)->has(\App\Models\Product::factory())->create();
+
+        $this->getJson('/api/restorants')
+        ->assertStatus(200)
+        ->assertJsonStructure([
+            ["data", "total", "links"]
+        ]);
+    }
+
+    public function test_restorants_success_search_restorant_name()
+    {
+        \App\Models\Restorant::factory(2)->has(\App\Models\Product::factory())->create();
+
+        \App\Models\Restorant::factory()->create([
+            'name' => 'rujak abc'
+        ]);
+
+        $this->getJson('/api/restorants?search=rujak')
+        ->assertStatus(200)
+        ->assertJsonFragment([
+            "name" => 'rujak abc'
+        ]);
+    }
+
+    public function test_restorants_success_no_data()
+    {
+        $this->getJson('/api/restorants?search=rujak')
+        ->assertStatus(200)
+        ->assertJsonFragment([
+            "total" => 0
+        ]);
+    }
+
+    public function test_restorant_by_id_success()
+    {
+        $restorant = \App\Models\Restorant::factory()->has(\App\Models\Product::factory())->create();
+
+        $this->getJson('/api/restorant/' . $restorant->id)
+        ->assertStatus(200)
+        ->assertJsonStructure([
+            "data" => ["name"]
+        ]);
+    }
+
+    public function test_restorant_by_id_failed()
+    {
+        $this->getJson('/api/restorant/99')
+        ->assertStatus(404);
+    }
+
+    public function test_restorant_product_with_id_success()
+    {
+        $restorant = \App\Models\Restorant::factory()->create();
+
+        $product = \App\Models\Product::factory()->create();
+
+        $this->getJson('/api/restorant/' . $restorant->id . '/product/' . $product->id)
+        ->assertStatus(200);
+    }
+
+    public function test_restorant_product_with_id_failed_no_restorant()
+    {
+        $this->getJson('/api/restorant/' . 21 . '/product/' . 1)
+        ->assertStatus(404);
+    }
+
+    public function test_restorant_product_with_id_failed_no_product()
+    {
+        $restorant = \App\Models\Restorant::factory()->create();
+
+        $this->getJson('/api/restorant/' . $restorant->id . '/product/' . 1)
+        ->assertStatus(404);
+    }
 }
