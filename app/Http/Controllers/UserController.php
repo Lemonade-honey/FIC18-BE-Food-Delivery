@@ -37,8 +37,7 @@ class UserController extends Controller
             ]);
 
             return response()->json([
-                'data' => $user,
-                'errors' => []
+                'data' => $user
             ]);
         } 
         
@@ -48,11 +47,7 @@ class UserController extends Controller
                 'massage' => $th->getMessage()
             ]);
 
-            return response()->json([
-                'errors' => [
-                    'massage' => 'server error'
-                ]
-            ], 504);
+            return self::errorResponseServerError();
         }
     }
 
@@ -69,8 +64,7 @@ class UserController extends Controller
             $user->save();
 
             return response()->json([
-                'data' => $user,
-                'errors' => []
+                'data' => $user
             ]);
         } 
         
@@ -80,11 +74,7 @@ class UserController extends Controller
                 'massage' => $th->getMessage()
             ]);
 
-            return response()->json([
-                'errors' => [
-                    'massage' => 'server error'
-                ]
-            ], 504);
+            return self::errorResponseServerError();
         }
     }
 }

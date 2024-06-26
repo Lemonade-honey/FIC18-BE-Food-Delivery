@@ -36,8 +36,7 @@ class AuthController extends Controller
             ]);
 
             return response()->json([
-                'data' => new UserResource($user),
-                'errors' => []
+                'data' => new UserResource($user)
             ], 201);
         }
         
@@ -47,11 +46,7 @@ class AuthController extends Controller
                 'massage' => $th->getMessage()
             ]);
 
-            return response()->json([
-                'errors' => [
-                    'massage' => 'server error'
-                ]
-            ], 504);
+            return self::errorResponseServerError();
         }
     }
 
@@ -83,8 +78,7 @@ class AuthController extends Controller
             $user->token = $user->createToken('basic-token')->plainTextToken;
 
             return response()->json([
-                'data' => new UserResource($user),
-                'errors' => []
+                'data' => new UserResource($user)
             ]);
         }
         
@@ -94,11 +88,7 @@ class AuthController extends Controller
                 'massage' => $th->getMessage()
             ]);
 
-            return response()->json([
-                'errors' => [
-                    'massage' => 'server error'
-                ]
-            ], 504);
+            return self::errorResponseServerError();
         }
     }
 
@@ -109,8 +99,7 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
 
         return response()->json([
-            'data' => true,
-            'errors' => []
+            'data' => true
         ]);
     }
 }

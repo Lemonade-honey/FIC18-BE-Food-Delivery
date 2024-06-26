@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RestorantController;
+use App\Http\Controllers\UserRestorantController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,26 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::patch('/role', [UserController::class, 'userRolePatch']);
 
         Route::delete('/logout', [AuthController::class, 'logoutDelete']);
+
+        Route::prefix('restorant')->group(function(){
+            Route::get('/', [UserRestorantController::class, 'currentRestorant']);
+            Route::patch('/', [UserRestorantController::class, 'currentRestorantPatch']);
+            Route::delete('/', [UserRestorantController::class, 'currentRestorantDelete']);
+    
+            // product restorant
+            Route::get('/products', [UserRestorantController::class, 'currentRestorantProducts']);
+    
+            Route::post('/create', [UserRestorantController::class, 'createRestorant']);
+    
+            Route::prefix('/product')->group(function(){
+                Route::post('/create', [UserRestorantController::class, 'currentRestorantCreateProduct']);
+    
+                Route::prefix('/{id}')->group(function(){
+                    Route::patch('/', [UserRestorantController::class, 'currentRestorantProductPatch']);
+                    Route::delete('/', [UserRestorantController::class, 'currentRestorantProductDelete']);
+                });
+            });
+        });
     });
 
     Route::prefix('restorant')->group(function(){
@@ -45,4 +66,10 @@ Route::middleware('auth:sanctum')->group(function(){
             });
         });
     });
+});
+
+Route::get('/restorants', [RestorantController::class, 'restorants']);
+Route::prefix('restorant/{id}')->group(function(){
+    Route::get('/', [RestorantController::class, 'restorant']);
+    Route::get('/product/{product_id}', [RestorantController::class, 'restorantProduct']);
 });

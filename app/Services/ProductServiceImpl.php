@@ -9,9 +9,32 @@ use Illuminate\Support\Facades\Storage;
 class ProductServiceImpl implements ProductService
 {
 
+    const FILE_PATH_IMAGE_PRODUCT = "products/";
+
+    private $fileService;
+
+    public function __construct()
+    {
+        $this->fileService = new FileServiceImpl;
+    }
+
     public function productByIdAndRestorantId(int $productId, int $restorantId): ?Product
     {
         $product = Product::where(['restorant_id' => $restorantId, 'id' => $productId])->first();
+
+        return $product;
+    }
+
+    public function createProductDataByRequest(\Illuminate\Http\Request $request, \App\Models\Restorant $restorant): Product
+    {
+        $product = Product::create([
+            'restorant_id' => $restorant->id,
+            'name' => $request->input('name'),
+            'image' => $this->fileService->saveFileToStoragePath($request->file('image'), self::FILE_PATH_IMAGE_PRODUCT . "$restorant->id/"),
+            'deskripsi' => $request->input('deskripsi'),
+            'type' => $request->input('type'),
+            'harga' => $request->input('harga')
+        ]);
 
         return $product;
     }

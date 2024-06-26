@@ -19,4 +19,32 @@ class RestorantRepositoryImpl implements RestorantRepository{
 
         return $restorant;
     }
+
+    public function getRestorantById(int $restorantId): Restorant|null
+    {
+        $restorant = Restorant::find($restorantId);
+
+        return $restorant;
+    }
+
+    public function getRestorantByIdWithProducts(int $restorantId): Restorant|null
+    {
+        $restorant = Restorant::with('products')->find($restorantId);
+
+        return $restorant;
+    }
+
+    public function getRestorantsOrProductsNyNameWithPaginate(?string $name, int $paginate = 15): ?\Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+        $restorants = Restorant::with('products')
+        ->when($name != '', function($query) use($name){
+            $query->where('name', 'like', '%' . $name . '%')
+            ->orWhereHas('products', function($query) use($name){
+                $query->where('name', 'like', '%' . $name . '%');
+            });
+        })
+        ->paginate($paginate);
+
+        return $restorants;
+    }
 }
