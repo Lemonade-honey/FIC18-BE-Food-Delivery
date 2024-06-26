@@ -192,14 +192,7 @@ class UserRestorantController extends Controller
                 return self::errorResponseRestorantNotFound();
             }
 
-            $product = Product::create([
-                'restorant_id' => $userRestorant->id,
-                'name' => $request->input('name'),
-                'image' => $this->fileService->saveFileToStoragePath($request->file('image'), 'products/test'),
-                'deskripsi' => $request->input('deskripsi'),
-                'type' => $request->input('type'),
-                'harga' => $request->input('harga')
-            ]);
+            $product = $this->productService->createProductDataByRequest($request, $userRestorant);
 
             return response()->json([
                 'data' => $product
