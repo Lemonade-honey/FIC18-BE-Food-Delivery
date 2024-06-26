@@ -106,6 +106,45 @@ class UserRestorantController extends Controller
     }
 
     /**
+     * Patch Update Data Restorant
+     * 
+     * update data restorants
+     */
+    public function currentRestorantPatch(Request $request): JsonResponse
+    {
+
+        $request->validate([
+            'name' => ['sometimes', 'max:255', 'min:3'],
+            'address' => 'sometimes',
+            'latlong' => 'sometimes',
+            'image' => ['sometimes', 'image', 'max:10280']
+        ]);
+
+        try {
+            $userRestorant = $this->restorantService->restorantUserByRequest($request);
+
+            if (! $userRestorant)
+            {
+                return self::errorResponseDataNotFound();
+            }
+
+            $userRestorantUpdate = $this->restorantService->updateRestorantDataByRequest($request, $userRestorant);
+
+            return response()->json([
+                'data' => $userRestorantUpdate
+            ]);
+            
+        } catch (Throwable $th) {
+            Log::critical('user gagal update data restorant. Error Code : ' . $th->getCode(), [
+                'class' => get_class(),
+                'massage' => $th->getMessage()
+            ]);
+
+            return self::errorResponseServerError();
+        }
+    }
+
+    /**
      * Delete Restorant
      * 
      * menghapus data restorant secara `permanent` beserta dengan relasi productnya
