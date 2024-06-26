@@ -116,6 +116,66 @@ class RestorantTest extends TestCase
         ->assertJsonValidationErrors(['name', 'latlong', 'photo']);
     }
 
+    public function test_current_restorant_patch_success()
+    {
+        // create user with role restorant
+        $user = \App\Models\User::factory()->create([
+            'role' => 'restorant'
+        ]);
+
+        $restorant = \App\Models\Restorant::factory()->create([
+            'user_id' => $user->id,
+            'name' => 'kfc'
+        ]);
+
+        $oldRestorantUser = \App\Models\Restorant::find($restorant->id);
+
+        $token = $user->createToken('test-token')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->patchJson('/api/user/restorant', [
+            'name' => 'olive'
+        ])
+        ->assertStatus(200);
+
+        $user->refresh();
+
+        $newRestorantUser = \App\Models\Restorant::find($restorant->id);
+
+        $this->assertNotEquals($oldRestorantUser, $newRestorantUser);
+    }
+
+    public function test_current_restorant_patch_failed_no_auth()
+    {
+        $user = \App\Models\User::factory()->has(\App\Models\Restorant::factory())->create([
+            'role' => 'restorant'
+        ]);
+
+        $this->patchJson('/api/user/restorant', [
+            'name' => 'olive'
+        ])
+        ->assertStatus(401);
+    }
+
+    public function test_current_restorant_patch_failed_no_restorant()
+    {
+        $user = \App\Models\User::factory()->create();
+
+        $token = $user->createToken('token-user')->plainTextToken;
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->patchJson('/api/user/restorant', [
+            'name' => 'olive'
+        ])
+        ->assertStatus(404);
+    }
+
     public function test_current_restorant_delete_success()
     {
         // create user with role restorant
