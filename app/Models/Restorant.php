@@ -14,6 +14,13 @@ class Restorant extends Model
         'id'
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'tags' => 'array'
+        ];
+    }
+
     /**
      * Relasi yang terikat dengan Restorant Model
      */
