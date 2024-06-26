@@ -1040,6 +1040,70 @@
                     }
                 ]
             }
+        },
+
+        "/api/user/orders":{
+            "get":{
+                "summary": "get user order in 1 month",
+                "description": "mengambil data user orders selama 1 bulan ini, secara terbaru, dan sesuai urutan staus: delivery, done/cancel",
+                "tags": ["Order User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "success get orders data 1 bulan lalu",
+                        "content": {
+                            "application/json":{
+                                "examples": {
+                                    "jika ada data":{
+                                        "value":{
+                                            "data":[
+                                                
+                                            ]
+                                        }
+                                    },
+                                    "tidak ada data":{
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/order":{
+            "post":{
+                "tags": ["Order User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses": {
+                    "201":{
+                        "description": "success create order data"
+                    }
+                }
+            }
+        },
+        "/api/user/order/{id}":{
+            "get":{
+                "tags": ["Order User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "success get order data"
+                    }
+                }
+            }
         }
     }
 }
