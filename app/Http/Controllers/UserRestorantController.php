@@ -58,9 +58,9 @@ class UserRestorantController extends Controller
             'name' => ['required', 'max:255', 'min:3'],
             'address' => 'required',
             'latlong' => 'required',
-            'photo' => ['required', 'image', 'max:10280']
+            'image' => ['required', 'image', 'max:10280']
         ], [
-            'photo.size' => 'photo maksimal berukuran 10MB'
+            'image.size' => 'photo maksimal berukuran 10MB'
         ]);
 
         try {
@@ -70,21 +70,11 @@ class UserRestorantController extends Controller
             {
                 // conflic status
                 return response()->json([
-                    'errors' => [
-                        'massage' => 'restorant sudah terdata, silahkan hapus data restorant sebelumnya'
-                    ]
+                   'massage' => 'restorant sudah terdata, silahkan hapus data restorant sebelumnya'
                 ], 409);
             }
 
-            $savedFilePath = $this->fileService->saveFileToStoragePath($request->file('photo'), self::FILE_PATH_PHOTO_RESTORANT);
-
-            $restorant = Restorant::create([
-                'user_id' => $request->user()->id,
-                'name' => $request->input('name'),
-                'address' => $request->input('address'),
-                'latlong' => $request->input('latlong'),
-                'photo' => $savedFilePath
-            ]);
+            $restorant = $this->restorantService->createRestorantByRequest($request);
 
             return response()->json([
                 'data' => $restorant
@@ -92,16 +82,12 @@ class UserRestorantController extends Controller
         }
         
         catch (Throwable $th) {
-            Log::critical('user gagal update role. Error Code : ' . $th->getCode(), [
+            Log::critical('user gagal membuat restorant. Error Code : ' . $th->getCode(), [
                 'class' => get_class(),
                 'massage' => $th->getMessage()
             ]);
 
-            return response()->json([
-                'errors' => [
-                    'massage' => 'server error'
-                ]
-            ], 504);
+            return self::errorResponseServerError();
         }
     }
 
