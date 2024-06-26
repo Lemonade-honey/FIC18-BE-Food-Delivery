@@ -17,6 +17,11 @@ interface RestorantService
     function restorantUserByRequest(Request $request): ?Restorant;
 
     /**
+     * Update restorant data
+     */
+    function updateRestorantDataByRequest(Request $request, Restorant $restorant): Restorant;
+
+    /**
      * Delete Restorant Data
      */
     function deleteRestorant(Restorant $restorant): void;
