@@ -31,6 +31,16 @@
                         }
                     }
                 }
+            },
+            "data not found":{
+                "description": "data tidak ditemukan",
+                "content": {
+                    "application/json":{
+                        "example": {
+                            "massage": "data not found"
+                        }
+                    }
+                }
             }
         }
     },
@@ -639,6 +649,23 @@
                         }
                     }
                 }
+            },
+            "delete":{
+                "description": "mengambil restorant berdasrkan kepunyaan user",
+                "tags": ["Restorant User"],
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses": {
+                    "204":{
+                        "description": "success menghapus restorant user. no response object"
+                    },
+                    "404":{
+                        "$ref": "#/components/responses/data not found"
+                    }
+                }                
             }
         },
         "/api/user/restorant/products":{
