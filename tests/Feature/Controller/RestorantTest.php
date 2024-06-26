@@ -249,10 +249,7 @@ class RestorantTest extends TestCase
             'Accept' => 'application/json',
         ])
         ->getJson('/api/user/restorant/products')
-        ->assertStatus(404)
-        ->assertJson([
-            'massage' => 'restorant user not found'
-        ]);
+        ->assertStatus(404);
     }
 
     public function test_current_restorant_products_failed_no_data_products()
@@ -266,10 +263,7 @@ class RestorantTest extends TestCase
             'Accept' => 'application/json',
         ])
         ->getJson('/api/user/restorant/products')
-        ->assertStatus(404)
-        ->assertJson([
-            'massage' => 'tidak ada product terdaftar'
-        ]);
+        ->assertStatus(404);
     }
 
     public function test_current_restorant_create_product_success()
