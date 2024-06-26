@@ -13,14 +13,12 @@ class UserRestorantController extends Controller
 {
 
     const FILE_PATH_PHOTO_RESTORANT = "restorant";
-
-    private $fileService;
+    
     private $restorantService;
     private $productService;
 
-    public function __construct(\App\Services\Interfaces\FileService $fileService, \App\Services\Interfaces\RestorantService $restorantService, \App\Services\Interfaces\ProductService $productService)
+    public function __construct(\App\Services\Interfaces\RestorantService $restorantService, \App\Services\Interfaces\ProductService $productService)
     {
-        $this->fileService = $fileService;
         $this->restorantService = $restorantService;
         $this->productService = $productService;
     }
