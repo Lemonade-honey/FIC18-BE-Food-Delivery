@@ -11,9 +11,6 @@ use Throwable;
 
 class UserRestorantController extends Controller
 {
-
-    const FILE_PATH_PHOTO_RESTORANT = "restorant";
-
     private $restorantService;
     private $productService;
 
