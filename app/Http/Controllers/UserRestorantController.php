@@ -13,7 +13,7 @@ class UserRestorantController extends Controller
 {
 
     const FILE_PATH_PHOTO_RESTORANT = "restorant";
-    
+
     private $restorantService;
     private $productService;
 
@@ -39,8 +39,7 @@ class UserRestorantController extends Controller
         return response()->json([
             'data' => [
                 $userRestorant
-            ],
-            'errors' => []
+            ]
         ]);
     }
 
@@ -139,9 +138,7 @@ class UserRestorantController extends Controller
 
         if(! $userRestorant)
         {
-            return response()->json([
-                'massage' => 'restorant user not found'
-            ], 404);
+            return self::errorResponseDataNotFound();
         }
 
         $this->restorantService->deleteRestorant($userRestorant);
@@ -157,14 +154,12 @@ class UserRestorantController extends Controller
 
         if (! $restorant)
         {
-            return self::errorResponseRestorantNotFound();
+            return self::errorResponseDataNotFound();
         }
 
         if ($restorant->products()->count() == 0)
         {
-            return response()->json([
-                'massage' => 'tidak ada product terdaftar'
-            ], 404);
+            return self::errorResponseDataNotFound();
         }
 
         return response()->json([
@@ -187,7 +182,7 @@ class UserRestorantController extends Controller
 
             if (! $userRestorant)
             {
-                return self::errorResponseRestorantNotFound();
+                return self::errorResponseDataNotFound();
             }
 
             $product = $this->productService->createProductDataByRequest($request, $userRestorant);
@@ -215,7 +210,7 @@ class UserRestorantController extends Controller
 
         if (! $userRestorant)
         {
-            return self::errorResponseRestorantNotFound();
+            return self::errorResponseDataNotFound();
         }
 
         $product = Product::where(['restorant_id' => $userRestorant->id, 'id' => $id])->first();
@@ -247,16 +242,14 @@ class UserRestorantController extends Controller
 
             if (! $userRestorant)
             {
-                return self::errorResponseRestorantNotFound();
+                return self::errorResponseDataNotFound();
             }
 
             $product = $this->productService->productByIdAndRestorantId(productId: $id, restorantId: $userRestorant->id);
 
             if (! $product)
             {
-                return response()->json([
-                    'massage' => 'product tidak ditemukan'
-                ], 404);
+                return self::errorResponseDataNotFound();
             }
 
             $updateProduct = $this->productService->updateProductDataByRequest($product, $request);
@@ -284,7 +277,7 @@ class UserRestorantController extends Controller
 
             if (! $userRestorant)
             {
-                return self::errorResponseRestorantNotFound();
+                return self::errorResponseDataNotFound();
             }
 
             $product = $this->productService->productByIdAndRestorantId(productId: $id, restorantId: $userRestorant->id);
@@ -310,18 +303,6 @@ class UserRestorantController extends Controller
 
             return self::errorResponseServerError();
         }
-    }
-
-    /**
-     * Static response for restorant not found
-     * 
-     * no access for outside resorce
-     */
-    private static function errorResponseRestorantNotFound(): JsonResponse
-    {
-        return response()->json([
-            'massage' => 'restorant user not found'
-        ], 404);
     }
 
 }
