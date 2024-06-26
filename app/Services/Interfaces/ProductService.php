@@ -14,6 +14,13 @@ interface ProductService
     function productByIdAndRestorantId(int $productId, int $restorantId): ?Product;
 
     /**
+     * Craete Product Data
+     * 
+     * membuat product baru restorant
+     */
+    function createProductDataByRequest(Request $request, \App\Models\Restorant $restorant): Product;
+
+    /**
      * Update Product data
      * 
      * masukan data yang perlu diupdate saja
