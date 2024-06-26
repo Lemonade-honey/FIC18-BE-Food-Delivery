@@ -10,11 +10,14 @@ class RestorantServiceImpl implements RestorantService
 
     const FILE_PATH_PHOTO_RESTORANT = "restorant";
 
+    private $fileService;
+
     private $restorantRepo;
 
     public function __construct(\App\Repositorys\Interfaces\RestorantRepository $restorantRepository)
     {
         $this->restorantRepo = $restorantRepository;
+        $this->fileService = new FileServiceImpl;
     }
 
     public function restorantUserByRequest(\Illuminate\Http\Request $request): ?Restorant
@@ -26,8 +29,26 @@ class RestorantServiceImpl implements RestorantService
         return $restorantUser;
     }
 
+    public function createRestorantByRequest(\Illuminate\Http\Request $request): Restorant
+    {
+        $user = $request->user();
+
+        $restorant = Restorant::create([
+            'user_id' => $request->user()->id,
+            'name' => $request->input('name'),
+            'tags' => $request->input('tags') ?? [],
+            'address' => $request->input('address'),
+            'latlong' => $request->input('latlong'),
+            'image' => $this->fileService->saveFileToStoragePath($request->file('image'), self::FILE_PATH_PHOTO_RESTORANT . "/$user->id/")
+        ]);
+
+        return $restorant;
+    }
+
     public function updateRestorantDataByRequest(\Illuminate\Http\Request $request, Restorant $restorant): Restorant
     {
+        $user = $request->user();
+
         if($request->has('name'))
         {
             $restorant->name = $request->input('name');
@@ -43,11 +64,9 @@ class RestorantServiceImpl implements RestorantService
             $restorant->latlong = $request->input('latlong');
         }
 
-        if($request->has('photo'))
+        if($request->has('image'))
         {
-            $fileService = new \App\Services\FileServiceImpl;
-
-            $restorant->address = $fileService->saveFileToStoragePath($request->file('photo'), self::FILE_PATH_PHOTO_RESTORANT);
+            $restorant->address = $this->fileService->saveFileToStoragePath($request->file('image'), self::FILE_PATH_PHOTO_RESTORANT . "/$user->id/");
         }
 
         $restorant->save();

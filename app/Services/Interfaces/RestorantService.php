@@ -17,6 +17,13 @@ interface RestorantService
     function restorantUserByRequest(Request $request): ?Restorant;
 
     /**
+     * Create new Restorant data
+     * 
+     * membuat restorant baru
+     */
+    function createRestorantByRequest(Request $request): Restorant;
+
+    /**
      * Update restorant data
      */
     function updateRestorantDataByRequest(Request $request, Restorant $restorant): Restorant;
