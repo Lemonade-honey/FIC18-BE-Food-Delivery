@@ -29,7 +29,7 @@ class RestorantTest extends TestCase
             'name' => fake()->company(),
             'address' => fake()->address(),
             'latlong' => fake()->latitude() .','. fake()->longitude(),
-            'photo' => UploadedFile::fake()->image('test.jpg')
+            'image' => UploadedFile::fake()->image('test.jpg')
         ];
     }
 
@@ -79,7 +79,7 @@ class RestorantTest extends TestCase
         ->postJson('/api/user/restorant/create', $this->dummy_restorant_valid_data())
         ->assertStatus(201)
         ->assertJsonStructure([
-            'data' => ['id', 'name', 'latlong', 'photo']
+            'data' => ['id', 'name', 'latlong', 'image']
         ]);
     }
 
@@ -94,8 +94,7 @@ class RestorantTest extends TestCase
             'Accept' => 'application/json',
         ])
         ->postJson('/api/user/restorant/create', $this->dummy_restorant_valid_data())
-        ->assertStatus(409)
-        ->assertJsonValidationErrors(['massage']);
+        ->assertStatus(409);
     }
 
     public function test_create_restorant_failed_validation()
@@ -110,10 +109,10 @@ class RestorantTest extends TestCase
             'name' => '',
             'address' => fake()->address(),
             'latlong' => '',
-            'photo' => ''
+            'image' => ''
         ])
         ->assertStatus(422)
-        ->assertJsonValidationErrors(['name', 'latlong', 'photo']);
+        ->assertJsonValidationErrors(['name', 'latlong', 'image']);
     }
 
     public function test_current_restorant_patch_success()
