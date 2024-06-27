@@ -1083,6 +1083,55 @@
                         "bearerAuth":[]
                     }
                 ],
+                "requestBody":{
+                    "content": {
+                        "application/json" :{
+                            "example": {
+                                "restorant": 1,
+                                "products_order":[
+                                    {
+                                        "id": 2,
+                                        "qty": 1,
+                                        "note": "massage request product"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "qty": 4,
+                                        "note": "massage request product"
+                                    },
+                                    {
+                                        "id": 5,
+                                        "qty": 1,
+                                        "note": ""
+                                    }
+                                ]
+                            },
+                            "schema" :{
+                                "type": "object",
+                                "required": ["restorant", "orders"],
+                                "properties": {
+                                    "restorant":{
+                                        "type": "integer"
+                                    },
+                                    "products_order" :{
+                                        "type": "array",
+                                        "properties": {
+                                            "id":{
+                                                "type": "integer"
+                                            },
+                                            "qty":{
+                                                "type": "number"
+                                            },
+                                            "note":{
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201":{
                         "description": "success create order data"
