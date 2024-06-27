@@ -13,6 +13,14 @@ interface ProductService
      */
     function productByIdAndRestorantId(int $productId, int $restorantId): ?Product;
 
+
+    /**
+     * Products Restorant By Ids
+     * 
+     * menampilkan data products restorant berdasarkan ids yang diberikan
+     */
+    function productsByIdsAndRestorantId(array $productIds, int $restorantId): \Illuminate\Database\Eloquent\Collection;
+
     /**
      * Craete Product Data
      * 

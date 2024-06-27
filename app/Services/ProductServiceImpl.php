@@ -25,6 +25,13 @@ class ProductServiceImpl implements ProductService
         return $product;
     }
 
+    public function productsByIdsAndRestorantId(array $productIds, int $restorantId): \Illuminate\Database\Eloquent\Collection
+    {
+        $products = Product::whereIn('id', $productIds)->where('restorant_id', $restorantId)->get();
+
+        return $products;
+    }
+
     public function createProductDataByRequest(\Illuminate\Http\Request $request, \App\Models\Restorant $restorant): Product
     {
         $product = Product::create([
