@@ -219,4 +219,52 @@ class OrderServiceTest extends TestCase
 
         $this->assertInstanceOf(Order::class, $service);
     }
+
+    public function test_get_user_orders()
+    {
+        $user = \App\Models\User::factory()->create();
+
+        $restorant = Restorant::factory()->create();
+        $product1 = Product::factory()->create([
+            'restorant_id' => $restorant->id,
+            'harga' => 5000
+        ]);
+
+        $product2 = Product::factory()->create([
+            'restorant_id' => $restorant->id,
+            'harga' => 2000
+        ]);
+
+        $dummyProductsOrderRequest = [
+            [
+                'product_id' => $product1->id,
+                'qty' => 1,
+                'note'=> ''
+            ],
+            [
+                'product_id' => $product2->id,
+                'qty' => 2,
+                'note'=> 'test note'
+            ]
+        ];
+
+        $request = $request = new \Illuminate\Http\Request;
+
+        $request->setUserResolver(function() use($user){
+            return $user;
+        });
+
+        $request->merge([
+            'restorant_id'=> $restorant->id,
+            'products_order' => $dummyProductsOrderRequest
+        ]);
+
+        $createOrder = $this->orderService->createOrderUserByRequest($request, $restorant);
+
+        $this->assertInstanceOf(Order::class, $createOrder);
+
+        $service = $this->orderService->userOrdersByRequest($request);
+
+        $this->assertTrue($service->count() == 1);
+    }
 }
