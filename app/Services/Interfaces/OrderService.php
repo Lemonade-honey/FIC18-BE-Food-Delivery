@@ -43,4 +43,10 @@ interface OrderService
      * yang bersangkutan
      */
     function createOrderUserByRequest(Request $request, Restorant $restorant): Order;
+
+    /**
+     * Get User Order
+     * mendapatkan data Order sesuai dengan user, by request
+     */
+    function userOrdersByRequest(Request $request): ?\Illuminate\Support\Collection;
 }

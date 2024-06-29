@@ -136,4 +136,13 @@ class OrderServiceImpl implements OrderService
 
         return $order;
     }
+
+    public function userOrdersByRequest(\Illuminate\Http\Request $request): \Illuminate\Support\Collection
+    {
+        $user = $request->user();
+
+        $orders = Order::with('restorant')->where('user_id', $user->id)->orderByDesc('id')->get();
+
+        return $orders;
+    }
 }
