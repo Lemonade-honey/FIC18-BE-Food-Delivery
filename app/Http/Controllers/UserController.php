@@ -98,7 +98,7 @@ class UserController extends Controller
 
         try {
 
-            $restorant = $this->restoranService->getRestorantById($request->input('restorant_id'));
+            $restorant = $this->restoranService->restorantById($request->input('restorant_id'));
 
             if (! $restorant)
             {
@@ -109,7 +109,7 @@ class UserController extends Controller
 
             return response()->json($order, 201);
         } catch (Throwable $th) {
-            Log::critical('user gagal update role. Error Code : ' . $th->getCode(), [
+            Log::critical('user gagal membuat order. Error Code : ' . $th->getCode(), [
                 'class' => get_class(),
                 'massage' => $th->getMessage()
             ]);
