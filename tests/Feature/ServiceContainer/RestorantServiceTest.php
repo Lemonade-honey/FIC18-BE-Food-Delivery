@@ -35,6 +35,16 @@ class RestorantServiceTest extends TestCase
         $this->assertTrue(true);
     }
 
+    public function test_restorant_by_id()
+    {
+        $restorant = Restorant::factory()->create();
+
+        $service = $this->restorantService->restorantById($restorant->id);
+
+        $this->assertNotNull($service);
+        $this->assertInstanceOf(Restorant::class, $service);
+    }
+
     // public function test_restorant_user_by_request_not_null()
     // {
     //     $user = $this->generate_user_restorant();
