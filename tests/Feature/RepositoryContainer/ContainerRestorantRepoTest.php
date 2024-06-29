@@ -47,7 +47,7 @@ class ContainerRestorantRepoTest extends TestCase
 
         $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $result);
         
-        $this->assertTrue($result->total() == 5);
+        $this->assertTrue($result->total() == $restorants->count());
     }
 
 
