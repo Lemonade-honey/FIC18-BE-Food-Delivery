@@ -114,4 +114,31 @@ class UserTest extends TestCase
         ])
         ->assertStatus(401);
     }
+
+    public function test_create_user_orders_success()
+    {
+        $token = $this->user_token_generate();
+
+        $restorant = \App\Models\Restorant::factory()->create();
+
+        $product = \App\Models\Product::factory()->create([
+            'restorant_id' => $restorant->id
+        ]);
+        
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])
+        ->postJson('/api/user/order', [
+            'restorant_id' => $restorant->id,
+            'products_order' => [
+                [
+                    "product_id" => $product->id,
+                    "qty" => 4,
+                    "note" => 'tidak apa aapa'
+                ]
+            ]
+        ])
+        ->assertStatus(201);
+    }
 }

@@ -173,7 +173,7 @@ class OrderServiceTest extends TestCase
 
         $this->assertIsArray($service);
 
-        $this->assertTrue($service['total price'] == ($dummyPrice + $servieFee));
+        $this->assertTrue($service['total_price'] == ($dummyPrice + $servieFee));
     }
 
     public function test_create_order()

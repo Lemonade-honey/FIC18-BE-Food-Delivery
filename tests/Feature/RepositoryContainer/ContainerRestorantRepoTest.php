@@ -41,9 +41,11 @@ class ContainerRestorantRepoTest extends TestCase
 
     public function test_get_restorants_name_or_products()
     {
-        $restorants = Restorant::factory(5)->has(Product::factory(5))->create();
+        $restorants = Restorant::factory()->create([
+            'name' => "geprek sambel"
+        ]);
 
-        $result = $this->restorantRepo->getRestorantsOrProductsNyNameWithPaginate('');
+        $result = $this->restorantRepo->getRestorantsOrProductsNyNameWithPaginate("geprek sambel");
 
         $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $result);
         
