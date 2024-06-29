@@ -117,4 +117,30 @@ class UserController extends Controller
             return self::errorResponseServerError();
         }
     }
+
+    public function userOrders(Request $request)
+    {
+        try {
+            $orders = $this->orderService->userOrdersByRequest($request);
+
+            if (! $orders)
+            {
+                return self::errorResponseDataNotFound();
+            }
+
+            return response()->json([
+                'data' => $orders
+            ]);
+
+        } 
+        
+        catch (Throwable $th) {
+            Log::critical('user gagal dalam mengambil data order user. Error Code : ' . $th->getCode(), [
+                'class' => get_class(),
+                'massage' => $th->getMessage()
+            ]);
+
+            return self::errorResponseServerError();
+        }
+    }
 }
