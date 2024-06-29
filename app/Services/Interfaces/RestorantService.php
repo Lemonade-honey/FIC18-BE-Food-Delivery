@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 interface RestorantService
 {
     /**
+     * Get Restorant By restorant id
+     * 
+     * mendaapatkan data restorant berdasarkan idnya
+     */
+    public function restorantById(int $id): ?Restorant;
+
+
+    /**
      * Check Restorant User by Request
      * 
      * restorant yang terikat dengan user, jika ada return model, jika tidak null

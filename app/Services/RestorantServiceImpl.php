@@ -20,6 +20,13 @@ class RestorantServiceImpl implements RestorantService
         $this->fileService = new FileServiceImpl;
     }
 
+    public function restorantById(int $id): Restorant|null
+    {
+        $restorant = $this->restorantRepo->getRestorantById($id);
+
+        return $restorant;
+    }
+
     public function restorantUserByRequest(\Illuminate\Http\Request $request): ?Restorant
     {
         $user = $request->user();
