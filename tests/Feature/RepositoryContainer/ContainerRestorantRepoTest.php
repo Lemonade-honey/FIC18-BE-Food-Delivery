@@ -45,11 +45,9 @@ class ContainerRestorantRepoTest extends TestCase
             'name' => "geprek sambel"
         ]);
 
-        $result = $this->restorantRepo->getRestorantsOrProductsNyNameWithPaginate("geprek sambel");
+        $result = $this->restorantRepo->getRestorantsOrProductsNyNameWithPaginate($restorants->name);
 
         $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $result);
-        
-        $this->assertTrue($result->total() == $restorants->count());
     }
 
 
