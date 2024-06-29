@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -24,5 +25,14 @@ class Order extends Model
             'details' => 'array',
             'orders' => 'array'
         ];
+    }
+
+    /**
+     * Relation
+     */
+
+    public function restorant(): HasOne
+    {
+        return $this->hasOne(Restorant::class, 'id', 'restorant_id');
     }
 }
