@@ -130,7 +130,7 @@ class OrderServiceImpl implements OrderService
             'restorant_id' => $restorant->id,
             'details' => $detailsOrder,
             'orders' => $convertOrder,
-            'price' =>$detailsOrder['total price'],
+            'price' =>$detailsOrder['total_price'],
             'status' => 1 // waitting payment
         ]);
 
