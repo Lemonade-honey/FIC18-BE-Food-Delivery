@@ -13,6 +13,11 @@ class Order extends Model
         'id'
     ];
 
+    protected $hidden = [
+        'id',
+        'user_id'
+    ];
+
     protected function casts(): array
     {
         return [

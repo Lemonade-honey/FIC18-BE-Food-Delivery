@@ -46,6 +46,11 @@ Route::middleware('auth:sanctum')->group(function(){
                 });
             });
         });
+
+        /**
+         * Route Order
+         */
+        Route::post('/order', [UserController::class, 'userCreateOrderPost']);
     });
 
     Route::prefix('restorant')->group(function(){
