@@ -82,7 +82,7 @@ class OrderServiceImpl implements OrderService
 
         $totalServicePrice = [
             'name' => 'service',
-            'price' => env('SERVICE_FEE', 0)
+            'price' => (int) env('SERVICE_FEE', 0)
         ];
 
         $detailPrice = [
@@ -95,8 +95,8 @@ class OrderServiceImpl implements OrderService
         });
 
         return [
-            'detail price' => $detailPrice,
-            'total price' => $totalPrice
+            'detail_price' => $detailPrice,
+            'total_price' => $totalPrice
         ];
     }
 
