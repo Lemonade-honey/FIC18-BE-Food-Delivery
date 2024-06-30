@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function(){
         /**
          * Route Order
          */
+        Route::get('/order', [UserController::class, 'userOrders']);
         Route::post('/order', [UserController::class, 'userCreateOrderPost']);
     });
 
