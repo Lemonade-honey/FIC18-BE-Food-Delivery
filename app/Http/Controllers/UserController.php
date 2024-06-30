@@ -128,6 +128,10 @@ class UserController extends Controller
                 return self::errorResponseDataNotFound();
             }
 
+            $orders = $orders->map(function($order){
+                return new \App\Http\Resources\User\UserOrdersResource($order);
+            });
+
             return response()->json([
                 'data' => $orders
             ]);
