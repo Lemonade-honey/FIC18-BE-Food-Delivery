@@ -42,4 +42,14 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Config Factory
+     */
+    public function configure()
+    {
+        return $this->afterCreating(function(){
+            \App\Models\UserFicPay::factory();
+        });
+    }
 }
