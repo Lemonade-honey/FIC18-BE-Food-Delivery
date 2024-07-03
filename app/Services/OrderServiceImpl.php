@@ -125,12 +125,12 @@ class OrderServiceImpl implements OrderService
          * dapat di set juga expirednya, menggunakan schedule. jika sudah expired otomatis cancel.
          */
         $order = Order::create([
-            'uuid' => $this->generateUUIDv7Order(),
             'user_id' => $request->user()->id,
             'restorant_id' => $restorant->id,
             'details' => $detailsOrder,
             'orders' => $convertOrder,
             'price' =>$detailsOrder['total_price'],
+            'type' => 'cash',
             'status' => 1 // waitting payment
         ]);
 

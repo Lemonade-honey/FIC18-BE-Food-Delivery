@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->uuid()->index();
+            $table->uuid('id')->primary()->index();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('restorant_id');
             $table->text('details');
             $table->text('orders');
             $table->bigInteger('price');
+            $table->enum('type', ['cash', 'ficpay']);
             $table->smallInteger('status');
             $table->timestamps();
         });

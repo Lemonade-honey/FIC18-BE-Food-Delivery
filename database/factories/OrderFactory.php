@@ -20,7 +20,6 @@ class OrderFactory extends Factory
         $productRestorant = \App\Models\Product::inRandomOrder()->where('restorant_id', $restorantId)->first();
         
         return [
-            'uuid' => fake()->uuid(),
             'user_id' => \App\Models\User::factory(),
             'restorant_id' => $restorantId,
             'orders' => [
@@ -46,7 +45,8 @@ class OrderFactory extends Factory
                 'total_price' => $productRestorant->harga
             ],
             'price' => $productRestorant->harga,
-            'status' => 1
+            'type' => 'cash',
+            'status' => 1 // ongoing
         ];
     }
 }
