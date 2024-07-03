@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -24,6 +25,8 @@ class AuthController extends Controller
         ]);
 
         try {
+            DB::beginTransaction();
+
             $user = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
@@ -31,6 +34,9 @@ class AuthController extends Controller
                 'password' => $request->input('password')
             ]);
 
+            $user->ficpay()->create();
+
+            DB::commit();
             Log::info('create new user', [
                 'data' => $user
             ]);
@@ -41,6 +47,8 @@ class AuthController extends Controller
         }
         
         catch (Throwable $th) {
+            DB::rollBack();
+            
             Log::critical('user baru gagal dibuat. Error Code : ' . $th->getCode(), [
                 'class' => get_class(),
                 'massage' => $th->getMessage()
