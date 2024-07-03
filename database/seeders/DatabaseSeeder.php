@@ -21,6 +21,12 @@ class DatabaseSeeder extends Seeder
                 'password' => 123456
             ]);
 
+
+            User::factory(10)->has(\App\Models\Order::factory(2))->create([
+                'role' => 'user',
+                'password' => 123456
+            ]);
+
             // user dengan driver
         }
     }
