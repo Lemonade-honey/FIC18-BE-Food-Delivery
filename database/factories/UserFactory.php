@@ -48,7 +48,10 @@ class UserFactory extends Factory
      */
     public function configure()
     {
-        return $this->afterCreating(function(){
+        return $this->afterCreating(function(\App\Models\User $user){
+            \App\Models\UserPayment::factory()->create([
+                'user_id' => $user->id
+            ]);
             \App\Models\UserFicPay::factory();
         });
     }
