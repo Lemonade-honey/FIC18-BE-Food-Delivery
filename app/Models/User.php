@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserFicPay::class);
     }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(UserPayment::class);
+    }
 }
